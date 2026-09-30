@@ -318,27 +318,57 @@
 
     /* Main Slides Container */
     main.presentation-wrapper {
-      flex: 1;
       margin-top: 72px;
+      flex: 1;
       display: flex;
-      flex-direction: column;
       position: relative;
+      overflow-x: hidden;
+      padding-bottom: 90px;
     }
 
     .slide-container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 36px 32px 120px 32px;
       display: none;
-      min-height: calc(100vh - 72px);
-      padding: 2.25rem 3.5rem 5rem 3.5rem;
-      opacity: 0;
-      transform: scale(0.99) translateY(8px);
-      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .slide-container.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Slide 1 Specifics */
+    .hero-slide {
+      padding: 30px 0 20px 0;
+    }
+
+    /* Keyboard shortcuts helper bar */
+    .shortcuts-bar {
       display: flex;
-      flex-direction: column;
-      opacity: 1;
-      transform: scale(1) translateY(0);
+      align-items: center;
+      gap: 16px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      padding: 16px 0 0 0;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .key-badge {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      font-size: 0.7rem;
     }
 
     /* Typography & Headers */
@@ -1197,58 +1227,69 @@
 
     <!-- SLIDE 1: PORTADA EJECUTIVA -->
     <section class="slide-container active" data-slide="1">
-      <div class="slide-header" style="max-width: 1200px;">
-        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;">
-          <span class="slide-tag" data-i18n="s1_badge1">PRODUCTO DESKTOP NATIVO</span>
-          <span class="slide-tag" style="color: var(--success); background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3);" data-i18n="s1_badge2">AIR-GAPPED 100% LOCALHOST</span>
-          <span class="slide-tag" style="color: var(--purple); background: rgba(139, 92, 246, 0.12); border-color: rgba(139, 92, 246, 0.3);" data-i18n="s1_badge3">THREE.JS WEBGL 60FPS</span>
-          <span class="slide-tag" style="color: var(--ntt-blue-light); background: rgba(0, 102, 255, 0.12); border-color: rgba(0, 102, 255, 0.3);" data-i18n="s1_badge4">TAURI V2 RUST</span>
-          <span class="slide-tag" style="color: var(--warning); background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3);" data-i18n="s1_badge5">INTEGRIDAD SHA-256</span>
+      <div class="hero-slide">
+        <div class="slide-header">
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.85rem;">
+            <span class="slide-tag" data-i18n="s1_badge1">PRODUCTO DESKTOP NATIVO</span>
+            <span class="slide-tag" style="color: var(--success); background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3);" data-i18n="s1_badge2">AIR-GAPPED 100% LOCALHOST</span>
+            <span class="slide-tag" style="color: var(--purple); background: rgba(139, 92, 246, 0.12); border-color: rgba(139, 92, 246, 0.3);" data-i18n="s1_badge3">THREE.JS WEBGL 60FPS</span>
+            <span class="slide-tag" style="color: var(--ntt-blue-light); background: rgba(0, 102, 255, 0.12); border-color: rgba(0, 102, 255, 0.3);" data-i18n="s1_badge4">TAURI V2 RUST</span>
+            <span class="slide-tag" style="color: var(--warning); background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.3);" data-i18n="s1_badge5">INTEGRIDAD SHA-256</span>
+          </div>
+          <h1 class="slide-title" style="font-size: 2.9rem; line-height: 1.15;">
+            <span class="accent" data-i18n="s1_title">AXET-NeuralGraph 3D</span><br>
+            <span style="font-size: 1.65rem; font-weight: 600; color: var(--text-main);" data-i18n="s1_title_accent">Plataforma Cognitiva Desktop para Regras Técnicas & Acervos de Misión Crítica (Reef.core)</span>
+          </h1>
+          <p class="slide-subtitle" style="font-size: 1.05rem; margin-top: 1rem;" data-i18n="s1_lead">
+            Ecosistema corporativo de inteligencia artificial soberana concebido por <strong>NTT DATA</strong> para <strong>MAPFRE</strong>...
+          </p>
         </div>
-        <h1 class="slide-title" style="font-size: 2.9rem; line-height: 1.15;">
-          <span class="accent" data-i18n="s1_title">AXET-NeuralGraph 3D</span><br>
-          <span style="font-size: 1.65rem; font-weight: 600; color: var(--text-main);" data-i18n="s1_title_accent">Plataforma Cognitiva Desktop para Reglas Técnicas & Acervos de Misión Crítica (Reef.core)</span>
-        </h1>
-        <p class="slide-subtitle" style="font-size: 1.05rem; margin-top: 1rem;" data-i18n="s1_lead">
-          Ecosistema corporativo de inteligencia artificial soberana concebido por <strong>NTT DATA</strong> para <strong>MAPFRE</strong>...
-        </p>
-      </div>
 
-      <!-- 6 Key Metrics -->
-      <div class="grid-6" style="margin-top: 1.5rem;">
-        <div class="stat-badge">
-          <div class="stat-number" data-i18n="s1_stat1_num">3.111+</div>
-          <div class="stat-label" data-i18n="s1_stat1_lbl">Nodos en Malla Encefálica</div>
+        <!-- 6 Key Metrics -->
+        <div class="grid-6" style="margin-top: 1.5rem;">
+          <div class="stat-badge">
+            <div class="stat-number" data-i18n="s1_stat1_num">3.111+</div>
+            <div class="stat-label" data-i18n="s1_stat1_lbl">Nodos en Malla Encefálica</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-number" data-i18n="s1_stat2_num">9.472+</div>
+            <div class="stat-label" data-i18n="s1_stat2_lbl">Sinapsis & Aristas Relacionales</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-number" data-i18n="s1_stat3_num">&lt; 100 MB</div>
+            <div class="stat-label" data-i18n="s1_stat3_lbl">Consumo RAM (Tauri v2 Rust)</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-number" data-i18n="s1_stat4_num">100%</div>
+            <div class="stat-label" data-i18n="s1_stat4_lbl">Localhost Air-Gapped (Cero Nube)</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-number" style="color: var(--ntt-cyan);" data-i18n="s1_stat5_num">+1.000 h</div>
+            <div class="stat-label" data-i18n="s1_stat5_lbl">Video Técnico Indexado</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-number" style="color: var(--success);" data-i18n="s1_stat6_num">+2.000</div>
+            <div class="stat-label" data-i18n="s1_stat6_lbl">Docs Técnicos Reef.core</div>
+          </div>
         </div>
-        <div class="stat-badge">
-          <div class="stat-number" data-i18n="s1_stat2_num">9.472+</div>
-          <div class="stat-label" data-i18n="s1_stat2_lbl">Sinapsis & Aristas Relacionales</div>
-        </div>
-        <div class="stat-badge">
-          <div class="stat-number" data-i18n="s1_stat3_num">&lt; 100 MB</div>
-          <div class="stat-label" data-i18n="s1_stat3_lbl">Consumo RAM (Tauri v2 Rust)</div>
-        </div>
-        <div class="stat-badge">
-          <div class="stat-number" data-i18n="s1_stat4_num">100%</div>
-          <div class="stat-label" data-i18n="s1_stat4_lbl">Localhost Air-Gapped (Cero Nube)</div>
-        </div>
-        <div class="stat-badge">
-          <div class="stat-number" style="color: var(--ntt-cyan);" data-i18n="s1_stat5_num">+1.000 h</div>
-          <div class="stat-label" data-i18n="s1_stat5_lbl">Video Técnico Indexado</div>
-        </div>
-        <div class="stat-badge">
-          <div class="stat-number" style="color: var(--success);" data-i18n="s1_stat6_num">+2.000</div>
-          <div class="stat-label" data-i18n="s1_stat6_lbl">Docs Técnicos Reef.core</div>
-        </div>
-      </div>
 
-      <div style="margin-top: 1.75rem; display: flex; justify-content: space-between; align-items: center;">
-        <div style="font-size: 0.9rem; color: var(--text-dim); font-style: italic; max-width: 750px;" data-i18n="s1_quote">
-          «La única solución para acervos actuariales hipercomplejos que garantiza soberanía absoluta, cero telemetría externa y rendimiento a 60 FPS.»
+        <div style="margin-top: 1.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="font-size: 0.9rem; color: var(--text-dim); font-style: italic; max-width: 750px;" data-i18n="s1_quote">
+            «La única solución para acervos actuariales hipercomplexos que garantiza soberanía absoluta, cero telemetría externa y rendimiento a 60 FPS.»
+          </div>
+          <button class="btn-nav" onclick="updateSlide(2)" style="background: var(--ntt-blue); color: #fff; padding: 0.75rem 1.5rem; font-size: 0.95rem; border-color: var(--ntt-blue); border-radius: 10px;">
+            <span data-i18n="s1_cta">Explorar Arquitectura y Pilares ➔</span>
+          </button>
         </div>
-        <button class="btn-nav" onclick="updateSlide(2)" style="background: var(--ntt-blue); color: #fff; padding: 0.75rem 1.5rem; font-size: 0.95rem; border-color: var(--ntt-blue); border-radius: 10px;">
-          <span data-i18n="s1_cta">Explorar Arquitectura y Pilares ➔</span>
-        </button>
+
+        <div class="shortcuts-bar">
+          <span data-i18n="shortcuts_title">Navegación:</span>
+          <span><span class="key-badge">◀</span> / <span class="key-badge">▶</span> <span data-i18n="sc_arrows">Flechas</span></span>
+          <span><span class="key-badge">Espacio</span> <span data-i18n="sc_space">Avanzar</span></span>
+          <span><span class="key-badge">F</span> <span data-i18n="sc_fullscreen">Pantalla Completa</span></span>
+          <span><span class="key-badge">N</span> <span data-i18n="sc_notes">Notas</span></span>
+          <span><span class="key-badge">T</span> <span data-i18n="sc_theme">Tema</span></span>
+        </div>
       </div>
     </section>
 
@@ -1501,6 +1542,18 @@
             <p class="card-desc" style="font-size: 0.84rem;" data-i18n="s6_step3_desc">Cualquier consulta subsiguiente de cualquier usuario de la compañía prioriza de inmediato el nodo rectificado sobre la documentación histórica desactualizada.</p>
           </div>
         </div>
+      </div>
+
+      <!-- Cognitive Learning Callout Banner -->
+      <div class="card" style="margin-top: 1.35rem; background: rgba(0, 192, 243, 0.05); border: 1px solid rgba(0, 192, 243, 0.25); display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 1rem 1.75rem; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 2rem;">🧠</div>
+          <div>
+            <div style="font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-main);" data-i18n="s6_banner_title">NEUROPLASTICIDAD AUTÓNOMA & PREVALENCIA COGNITIVA</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;" data-i18n="s6_banner_sub">Auto-rectificación de conocimiento sin reentrenamiento de modelos • Inferencia &lt; 500ms • Eliminación de alucinaciones recurrentes</div>
+          </div>
+        </div>
+        <span class="slide-tag" style="margin: 0; color: var(--ntt-cyan); border-color: rgba(0, 192, 243, 0.4); background: rgba(0, 192, 243, 0.1);" data-i18n="s6_banner_tag">ZERO RE-TRAIN DEPLOY</span>
       </div>
     </section>
 
@@ -2019,6 +2072,9 @@
     "s6_step2_desc": "El grafo y la memoria vectorial mutan en caliente, registrando el aprendizaje con metadatos de autoría, fecha y justificación técnica.",
     "s6_step3_title": "FASE 3: Prevalencia Canónica Universal",
     "s6_step3_desc": "Cualquier consulta subsiguiente de cualquier usuario de la compañía prioriza de inmediato el nodo rectificado sobre la documentación histórica desactualizada.",
+    "s6_banner_title": "NEUROPLASTICIDAD AUTÓNOMA & PREVALENCIA COGNITIVA",
+    "s6_banner_sub": "Auto-rectificación de conocimiento sin reentrenamiento de modelos • Inferencia < 500ms • Eliminación de alucinaciones recurrentes",
+    "s6_banner_tag": "ZERO RE-TRAIN DEPLOY",
     "s7_tag": "Gobernanza Distribuida",
     "s7_title": "Federación Git Cero Permisos: Colaboración a Escala",
     "s7_subtitle": "Cientos de colaboradores sincronizando mejoras de conocimiento sin requerir credenciales ni permisos de commit en el código.",
@@ -2154,7 +2210,13 @@
     ],
     "chart_acc_leg_acc": "Acuracia & Adherencia Normativa (%)",
     "chart_acc_leg_err": "Tasa de Incertidumbre / Alucinación (%)",
-    "chart_acc_unit": "%"
+    "chart_acc_unit": "%",
+    "shortcuts_title": "Navegación:",
+    "sc_arrows": "Flechas",
+    "sc_space": "Avanzar",
+    "sc_fullscreen": "Pantalla Completa",
+    "sc_notes": "Notas",
+    "sc_theme": "Tema"
   },
   "en": {
     "doc_title": "AXET-NeuralGraph 3D | Cognitive Desktop Platform — MAPFRE & NTT DATA",
@@ -2271,6 +2333,9 @@
     "s6_step2_desc": "The graph and vector memory mutate on-the-fly, logging canonical learning nodes with author, timestamp, and justification metadata.",
     "s6_step3_title": "PHASE 3: Universal Canonical Precedence",
     "s6_step3_desc": "All subsequent queries across the company immediately prioritize the rectified node over outdated legacy documentation.",
+    "s6_banner_title": "AUTONOMOUS NEUROPLASTICITY & COGNITIVE PREVALENCE",
+    "s6_banner_sub": "Knowledge auto-rectification without model re-training • < 500ms inference • Elimination of recurring hallucinations",
+    "s6_banner_tag": "ZERO RE-TRAIN DEPLOY",
     "s7_tag": "Distributed Governance",
     "s7_title": "Zero-Permission Git Federation: Scale Across Teams",
     "s7_subtitle": "Hundreds of collaborators synchronizing technical insights without needing write permissions on the codebase.",
@@ -2406,7 +2471,13 @@
     ],
     "chart_acc_leg_acc": "Cognitive Accuracy & Compliance (%)",
     "chart_acc_leg_err": "Uncertainty / Hallucination Rate (%)",
-    "chart_acc_unit": "%"
+    "chart_acc_unit": "%",
+    "shortcuts_title": "Navigation:",
+    "sc_arrows": "Arrows",
+    "sc_space": "Advance",
+    "sc_fullscreen": "Fullscreen",
+    "sc_notes": "Notes",
+    "sc_theme": "Theme"
   },
   "ptb": {
     "doc_title": "AXET-NeuralGraph 3D | Plataforma Cognitiva Desktop — MAPFRE & NTT DATA",
@@ -2523,6 +2594,9 @@
     "s6_step2_desc": "O grafo e a memória vetorial mutam instantaneamente, gerando o nó de aprendizado com metadados de autoria, data e justificativa técnica.",
     "s6_step3_title": "ETAPA 3: Prevalência Canônica Universal",
     "s6_step3_desc": "Qualquer consulta futura de qualquer colaborador da companhia passa a priorizar o nó retificado sobre manuais legados desatualizados.",
+    "s6_banner_title": "NEUROPLASTICIDADE AUTÔNOMA & PREVALÊNCIA COGNITIVA",
+    "s6_banner_sub": "Auto-retificação de conhecimento sem re-treinamento de modelos • Inferência < 500ms • Eliminação de alucinações recorrentes",
+    "s6_banner_tag": "ZERO RE-TRAIN DEPLOY",
     "s7_tag": "Governança Distribuída",
     "s7_title": "Federação Git Zero Permissões: Colaboração em Escala",
     "s7_subtitle": "Centenas de colaboradores sincronizando aprendizados sem necessitar de permissões de escrita no repositório.",
@@ -2658,7 +2732,13 @@
     ],
     "chart_acc_leg_acc": "Acurácia & Aderência Normativa (%)",
     "chart_acc_leg_err": "Taxa de Incerteza / Alucinação (%)",
-    "chart_acc_unit": "%"
+    "chart_acc_unit": "%",
+    "shortcuts_title": "Navegação:",
+    "sc_arrows": "Setas",
+    "sc_space": "Avançar",
+    "sc_fullscreen": "Tela Cheia",
+    "sc_notes": "Notas",
+    "sc_theme": "Tema"
   },
   "pt": {
     "doc_title": "AXET-NeuralGraph 3D | Plataforma Cognitiva Desktop — MAPFRE & NTT DATA",
@@ -2775,6 +2855,9 @@
     "s6_step2_desc": "O grafo e a memória vetorial mutam instantaneamente, gerando o nó de aprendizado com metadados de autoria, data e justificativa técnica.",
     "s6_step3_title": "ETAPA 3: Prevalência Canônica Universal",
     "s6_step3_desc": "Qualquer consulta futura de qualquer colaborador da companhia passa a priorizar o nó retificado sobre manuais legados desatualizados.",
+    "s6_banner_title": "NEUROPLASTICIDADE AUTÔNOMA & PREVALÊNCIA COGNITIVA",
+    "s6_banner_sub": "Auto-retificação de conhecimento sem re-treinamento de modelos • Inferência < 500ms • Eliminação de alucinações recorrentes",
+    "s6_banner_tag": "ZERO RE-TRAIN DEPLOY",
     "s7_tag": "Governança Distribuída",
     "s7_title": "Federação Git Zero Permissões: Colaboração em Escala",
     "s7_subtitle": "Centenas de colaboradores sincronizando aprendizados sem necessitar de permissões de escrita no repositório.",
@@ -2910,7 +2993,13 @@
     ],
     "chart_acc_leg_acc": "Acurácia & Aderência Normativa (%)",
     "chart_acc_leg_err": "Taxa de Incerteza / Alucinação (%)",
-    "chart_acc_unit": "%"
+    "chart_acc_unit": "%",
+    "shortcuts_title": "Navegação:",
+    "sc_arrows": "Setas",
+    "sc_space": "Avançar",
+    "sc_fullscreen": "Tela Cheia",
+    "sc_notes": "Notas",
+    "sc_theme": "Tema"
   }
 };
 
