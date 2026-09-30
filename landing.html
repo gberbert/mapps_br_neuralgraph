@@ -1,0 +1,3587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title id="pageTitle">NTT DATA | AXET-NeuralGraph 3D — Plataforma Cognitiva Desktop & Grafo Neural Tridimensional</title>
+  <meta name="title" content="NTT DATA | AXET-NeuralGraph 3D — Plataforma Cognitiva Desktop">
+  <meta name="description" content="Ecosistema nativo de inteligencia artificial corporativa de NTT DATA. RAG Local-First estricto, visualización neuroanatómica 3D en Three.js, neuroplasticidad sintética en tiempo real y aislamiento total contra fuga de datos corporativos.">
+  <meta name="author" content="NTT DATA Brasil • Enterprise AI & Modern Applications">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- Open Graph / WhatsApp / LinkedIn / Teams -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gberbert.github.io/axet-neuralgraph-desktop/">
+  <meta property="og:site_name" content="NTT DATA Brasil • Enterprise AI Desktop">
+  <meta property="og:title" content="NTT DATA | AXET-NeuralGraph 3D — Plataforma Cognitiva Desktop">
+  <meta property="og:description" content="Inteligencia cognitiva descentralizada con Grafo Neural 3D y RAG Local-First. Cero fuga de datos, auto-rectificación en tiempo real y 3.111+ nodos anatómicos mapeados.">
+  <meta property="og:image" content="assets/screen_neural_graph_3d.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      /* NTT DATA Corporate Colors */
+      --ntt-navy: #001026;
+      --ntt-dark: #050d1a;
+      --ntt-blue: #0066cc;
+      --ntt-blue-light: #0072ce;
+      --ntt-blue-hover: #0056b3;
+      --ntt-cyan: #00c0f3;
+      --ntt-accent: #00e5ff;
+      --ntt-purple: #7928ca;
+      
+      /* Grayscale & Backgrounds */
+      --bg-white: #ffffff;
+      --bg-light: #f8fafc;
+      --bg-card: #ffffff;
+      --border-light: rgba(0, 0, 0, 0.08);
+      --border-glow: rgba(0, 102, 204, 0.25);
+      
+      /* Typography */
+      --text-dark: #0a1128;
+      --text-body: #475569;
+      --text-muted: #64748b;
+      --text-white: #ffffff;
+      
+      /* Semantic Status */
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #0284c7;
+      
+      /* Spacings & Shadows */
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-soft: 0 10px 30px -5px rgba(0, 16, 38, 0.08), 0 4px 6px -2px rgba(0, 16, 38, 0.03);
+      --shadow-hover: 0 20px 40px -10px rgba(0, 102, 204, 0.15), 0 8px 16px -4px rgba(0, 102, 204, 0.08);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-white);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    code, pre {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==================== SITE HEADER ==================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 16, 38, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0, 192, 243, 0.25);
+      padding: 14px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .app-logo-img {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0, 192, 243, 0.4));
+    }
+
+    .brand-ntt-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Nav links */
+    .site-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 6px 4px;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      color: var(--ntt-cyan);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--ntt-cyan);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Header Actions (Language Switcher) */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(0, 192, 243, 0.35);
+      border-radius: 999px;
+      padding: 3px;
+      gap: 2px;
+      backdrop-filter: blur(8px);
+    }
+
+    .lang-btn {
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: 0.04em;
+    }
+
+    .lang-btn:hover {
+      color: #ffffff;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--ntt-blue), var(--ntt-cyan));
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 192, 243, 0.5);
+    }
+
+    /* Hamburger Mobile Menu Button */
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-sm);
+      color: #ffffff;
+      font-size: 1.4rem;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-toggle:hover {
+      border-color: var(--ntt-cyan);
+      color: var(--ntt-cyan);
+    }
+
+    /* Mobile Drawer */
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      top: 68px;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 16, 38, 0.98);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 192, 243, 0.3);
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mobile-nav-drawer.open {
+      display: flex;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mobile-nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: block;
+    }
+
+    /* ==================== HERO SECTION ==================== */
+    .hero-section {
+      background: linear-gradient(135deg, var(--ntt-navy) 0%, #03142e 50%, #020b18 100%);
+      color: var(--text-white);
+      padding: 70px 0 90px 0;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(0, 192, 243, 0.2);
+    }
+
+    .hero-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 15% 25%, rgba(0, 192, 243, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(0, 102, 204, 0.18) 0%, transparent 45%);
+      pointer-events: none;
+    }
+
+    .hero-badge-tag {
+      display: inline-block;
+      max-width: 100%;
+      background: rgba(0, 192, 243, 0.14);
+      border: 1px solid var(--ntt-cyan);
+      color: var(--ntt-cyan);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      line-height: 1.45;
+      text-align: center;
+      word-break: break-word;
+      box-sizing: border-box;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 3.5vw, 2.85rem);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #00c0f3, #7928ca);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.82);
+      margin-bottom: 34px;
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--ntt-blue-light), var(--ntt-cyan));
+      color: #ffffff;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 999px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(0, 192, 243, 0.4);
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0, 192, 243, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 13px 26px;
+      border-radius: 999px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--ntt-cyan);
+      color: var(--ntt-cyan);
+      transform: translateY(-2px);
+    }
+
+    /* Hero KPI Cards */
+    .hero-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    /* ==================== MAPFRE MOTIVATION SHOWCASE CARD ==================== */
+    .mapfre-case-card {
+      background: linear-gradient(135deg, rgba(0, 16, 38, 0.98), rgba(0, 28, 62, 0.95));
+      border: 1px solid rgba(0, 192, 243, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      margin-top: 36px;
+      color: #ffffff;
+      box-shadow: 0 16px 40px rgba(0, 16, 38, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mapfre-case-card::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -15%;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(0, 192, 243, 0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .mapfre-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 192, 243, 0.15);
+      border: 1px solid var(--ntt-cyan);
+      color: var(--ntt-cyan);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .mapfre-case-title {
+      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+      line-height: 1.25;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .mapfre-case-title span {
+      background: linear-gradient(135deg, #00c0f3, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .mapfre-case-lead {
+      font-size: 1.0rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 26px;
+      max-width: 1020px;
+    }
+
+    .mapfre-case-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .mapfre-pillar-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mapfre-pillar-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 192, 243, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .mapfre-pillar-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .mapfre-pillar-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .mapfre-pillar-desc {
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .mapfre-kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .mapfre-kpi-item {
+      background: rgba(0, 192, 243, 0.08);
+      border: 1px solid rgba(0, 192, 243, 0.2);
+      border-radius: 12px;
+      padding: 16px 14px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .mapfre-kpi-item:hover {
+      background: rgba(0, 192, 243, 0.14);
+      border-color: var(--ntt-cyan);
+      transform: translateY(-2px);
+    }
+
+    .mapfre-kpi-item .kpi-num {
+      font-size: 1.55rem;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      color: var(--ntt-cyan);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .mapfre-kpi-item .kpi-txt {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.35;
+    }
+
+    .hero-stat-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 18px;
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+
+    .hero-stat-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--ntt-cyan);
+      box-shadow: 0 10px 25px rgba(0, 192, 243, 0.2);
+    }
+
+    .hero-stat-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--ntt-cyan);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .hero-stat-label {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.75);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+
+    /* Window Showcase Frame */
+    .app-window-frame {
+      background: #08172e;
+      border: 1px solid rgba(0, 192, 243, 0.4);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 192, 243, 0.25);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .app-window-frame:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7), 0 0 45px rgba(0, 192, 243, 0.4);
+    }
+
+    .window-header-bar {
+      background: #040c1a;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .window-traffic-lights {
+      display: flex;
+      gap: 7px;
+    }
+
+    .traffic-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .window-title-text {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .window-telemetry-tag {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .window-screen-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    /* ==================== GENERAL SECTION HEADINGS ==================== */
+    .section-wrap {
+      padding: 85px 0;
+      position: relative;
+    }
+
+    .section-wrap.bg-alt {
+      background: var(--bg-light);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section-header-center {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 55px auto;
+    }
+
+    .section-tag {
+      display: inline-block;
+      color: var(--ntt-blue);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(1.85rem, 3vw, 2.35rem);
+      color: var(--ntt-navy);
+      line-height: 1.22;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 1.08rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* ==================== SECTION: PROPOSITO ==================== */
+    .why-desktop-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    .card-pain-vs-gain {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-pain-vs-gain::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--danger), var(--warning));
+    }
+
+    .card-pain-vs-gain.gain::before {
+      background: linear-gradient(to bottom, var(--success), var(--ntt-cyan));
+    }
+
+    .card-head-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .card-head-title h3 {
+      font-size: 1.35rem;
+      color: var(--ntt-navy);
+    }
+
+    .feature-check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feature-check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .check-icon-box {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .check-bad {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .check-good {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    /* ==================== SECTION: 6 DIFERENCIAIS ==================== */
+    .differentials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .diff-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diff-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(0, 102, 204, 0.3);
+    }
+
+    .diff-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--ntt-blue), var(--ntt-cyan));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .diff-card:hover::after {
+      opacity: 1;
+    }
+
+    .diff-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      background: rgba(0, 102, 204, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.65rem;
+      margin-bottom: 22px;
+      border: 1px solid rgba(0, 102, 204, 0.15);
+      color: var(--ntt-blue);
+    }
+
+    .diff-card:nth-child(2) .diff-icon-wrap {
+      background: rgba(121, 40, 202, 0.08);
+      border-color: rgba(121, 40, 202, 0.2);
+      color: var(--ntt-purple);
+    }
+
+    .diff-card:nth-child(3) .diff-icon-wrap {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+    }
+
+    .diff-card:nth-child(4) .diff-icon-wrap {
+      background: rgba(0, 192, 243, 0.08);
+      border-color: rgba(0, 192, 243, 0.2);
+      color: var(--ntt-cyan);
+    }
+
+    .diff-card:nth-child(5) .diff-icon-wrap {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+
+    .diff-card:nth-child(6) .diff-icon-wrap {
+      background: rgba(3, 105, 161, 0.08);
+      border-color: rgba(3, 105, 161, 0.2);
+      color: var(--info);
+    }
+
+    .diff-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      background: rgba(0, 102, 204, 0.08);
+      color: var(--ntt-blue);
+    }
+
+    .diff-title {
+      font-size: 1.25rem;
+      color: var(--ntt-navy);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .diff-desc {
+      font-size: 0.91rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .diff-highlight-pill {
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #334155;
+      border-left: 3px solid var(--ntt-blue);
+    }
+
+    /* ==================== SECTION: TELAS DO APP ==================== */
+    .screens-showcase-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    .screen-feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition);
+    }
+
+    .screen-feature-row:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(0, 192, 243, 0.4);
+    }
+
+    .screen-feature-row.reverse {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 1025px) {
+      .screen-feature-row.reverse .screen-image-container {
+        order: 2;
+      }
+      .screen-feature-row.reverse .screen-details-content {
+        order: 1;
+      }
+    }
+
+    .screen-image-container {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(0, 16, 38, 0.12);
+      box-shadow: 0 15px 35px rgba(0, 16, 38, 0.1);
+      cursor: pointer;
+      background: #000;
+    }
+
+    .screen-image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .screen-image-container:hover img {
+      transform: scale(1.03);
+    }
+
+    .screen-overlay-zoom {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0, 16, 38, 0.8);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .screen-details-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .screen-index-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--ntt-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .screen-title {
+      font-size: 1.65rem;
+      color: var(--ntt-navy);
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+
+    .screen-desc {
+      font-size: 0.95rem;
+      color: var(--text-body);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .screen-specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .spec-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+    }
+
+    .spec-key {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .spec-val {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    /* ==================== SECTION: ARQUITETURA ==================== */
+    .arch-stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    .arch-layer-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .arch-layer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--ntt-blue);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .arch-layer-title {
+      font-size: 1.1rem;
+      color: var(--ntt-navy);
+      margin-bottom: 12px;
+    }
+
+    .arch-tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .tech-tag {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .charts-dual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .chart-container-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-soft);
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .chart-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 270px;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .chart-canvas-wrap canvas {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .chart-container-card h4 {
+      font-size: 1.15rem;
+      color: var(--ntt-navy);
+      margin-bottom: 8px;
+    }
+
+    .chart-container-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* ==================== SECTION: FLUXO .QPACK ==================== */
+    .flow-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 35px;
+      position: relative;
+    }
+
+    .flow-step-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .flow-step-number {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--ntt-blue), var(--ntt-cyan));
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0, 192, 243, 0.4);
+    }
+
+    .flow-step-title {
+      font-size: 1.05rem;
+      color: var(--ntt-navy);
+      margin-bottom: 10px;
+    }
+
+    .flow-step-desc {
+      font-size: 0.86rem;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+
+    /* ==================== FAQ ACCORDION ==================== */
+    .faq-accordion {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: rgba(0, 102, 204, 0.3);
+    }
+
+    .faq-header {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      color: var(--ntt-navy);
+      font-size: 1.02rem;
+      user-select: none;
+    }
+
+    .faq-icon {
+      color: var(--ntt-blue);
+      transition: transform 0.25s ease;
+      font-size: 0.85rem;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-body {
+      display: none;
+      padding: 0 24px 22px 24px;
+      color: var(--text-body);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      border-top: 1px solid #f1f5f9;
+      background: #fafafa;
+    }
+
+    .faq-item.active .faq-body {
+      display: block;
+    }
+
+    /* ==================== LIGHTBOX MODAL ==================== */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 16, 38, 0.88);
+      backdrop-filter: blur(10px);
+      z-index: 100000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 92vw;
+      max-height: 90vh;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(0, 192, 243, 0.4);
+      background: #000;
+    }
+
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      display: block;
+      object-fit: contain;
+    }
+
+    .lightbox-caption {
+      background: #040c1a;
+      color: #ffffff;
+      padding: 14px 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 10;
+    }
+
+    .lightbox-close-btn:hover {
+      background: var(--danger);
+      border-color: var(--danger);
+      transform: scale(1.1);
+    }
+
+    /* ==================== PRESENTER TRAY MODAL ==================== */
+    .presenter-tray-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, var(--ntt-navy), #06234d);
+      color: white;
+      border: 1px solid var(--ntt-cyan);
+      box-shadow: 0 10px 30px rgba(0, 16, 38, 0.4);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .presenter-tray-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 192, 243, 0.6);
+    }
+
+    .tray-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 16, 38, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .tray-modal-backdrop.open {
+      display: flex;
+    }
+
+    .tray-modal-window {
+      background: #061833;
+      border: 1px solid rgba(0, 192, 243, 0.4);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 900px;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 30px;
+      position: relative;
+    }
+
+    .tray-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 14px;
+    }
+
+    .tray-modal-header h3 {
+      font-size: 1.35rem;
+      color: white;
+    }
+
+    .tray-modal-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .tray-modal-close:hover {
+      color: white;
+    }
+
+    /* ==================== FOOTER ==================== */
+    .site-footer {
+      background: var(--ntt-navy);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 55px 0 25px 0;
+      font-size: 0.88rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 35px;
+    }
+
+    .footer-brand strong {
+      color: white;
+      font-size: 1.15rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .footer-title {
+      color: white;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 7px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--ntt-cyan);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    
+    /* ==================== 100% RESPONSIVE ADAPTIVE CASCADE ==================== */
+    @media (max-width: 1120px) {
+      .site-nav {
+        display: none !important;
+      }
+      .mobile-menu-toggle {
+        display: flex !important;
+      }
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 36px;
+      }
+      .why-desktop-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+      }
+      .differentials-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .arch-stack-grid, .flow-steps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .screen-feature-row, .screen-feature-row.reverse {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 26px;
+      }
+      .charts-dual-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px;
+      }
+      .mapfre-case-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .mapfre-kpi-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        padding: 0 16px;
+      }
+      .container {
+        padding: 0 16px;
+      }
+      .hero-section {
+        padding: 40px 0 60px 0;
+      }
+      .hero-title {
+        font-size: clamp(1.75rem, 5.5vw, 2.3rem);
+      }
+      .hero-subtitle {
+        font-size: 0.96rem;
+      }
+      .hero-stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px;
+      }
+      .why-desktop-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .differentials-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .arch-stack-grid, .flow-steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .chart-container-card {
+        padding: 20px;
+      }
+      .chart-canvas-wrap {
+        height: 250px;
+      }
+      .card-pain-vs-gain {
+        padding: 24px;
+      }
+      .feature-card {
+        padding: 24px;
+      }
+      .presenter-tray-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 9px 14px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        padding: 0 12px;
+      }
+      .brand-ntt-text {
+        font-size: 1.05rem;
+      }
+      .app-logo-img {
+        height: 26px;
+      }
+      .header-actions {
+        gap: 6px;
+      }
+      .lang-btn {
+        padding: 4px 7px;
+        font-size: 0.70rem;
+      }
+      .mobile-menu-toggle {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+      }
+      .hero-badge-tag {
+        font-size: 0.72rem;
+        padding: 6px 12px;
+      }
+      .hero-stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px;
+      }
+      .hero-stat-card {
+        padding: 10px 12px;
+      }
+      .hero-stat-val {
+        font-size: 1.35rem;
+      }
+      .hero-stat-label {
+        font-size: 0.68rem;
+        line-height: 1.25;
+      }
+      .screen-specs-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+      }
+      .chart-container-card {
+        padding: 16px;
+      }
+      .chart-container-card h4 {
+        font-size: 1.0rem;
+      }
+      .chart-container-card p {
+        font-size: 0.80rem;
+        margin-bottom: 12px;
+      }
+      .chart-canvas-wrap {
+        height: 230px;
+      }
+      .presenter-tray-btn {
+        bottom: 12px;
+        right: 12px;
+        padding: 7px 12px;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-ntt-text {
+        font-size: 0.98rem;
+      }
+      .app-logo-img {
+        height: 23px;
+      }
+      .brand-logo-wrap {
+        gap: 8px;
+      }
+      .lang-btn {
+        padding: 3px 6px;
+        font-size: 0.68rem;
+        min-width: 26px;
+      }
+      .mobile-menu-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 1.05rem;
+      }
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+      }
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 0.90rem;
+      }
+      .hero-title {
+        font-size: 1.60rem;
+      }
+      .hero-subtitle {
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+      .hero-stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px;
+      }
+      .section-header-center {
+        margin-bottom: 30px;
+      }
+      .section-title {
+        font-size: 1.60rem;
+      }
+      .section-subtitle {
+        font-size: 0.88rem;
+      }
+      .mapfre-case-card {
+        padding: 20px;
+      }
+      .mapfre-kpi-strip {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 360px) {
+      .hero-stats-row {
+        grid-template-columns: minmax(0, 1fr) !important;
+      }
+      .brand-ntt-text {
+        font-size: 0.85rem;
+      }
+      .lang-btn {
+        padding: 2px 4px;
+        font-size: 0.62rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER (CLEAN BRAND + MULTI-LANG) ==================== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#inicio" class="brand-logo-wrap" title="NTT DATA - AXET-NeuralGraph 3D">
+        <img src="logo.png" alt="NTT DATA" class="app-logo-img">
+        <span class="brand-ntt-text">NTT DATA</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="site-nav">
+        <ul class="nav-links">
+          <li><a href="#overview" class="nav-link" data-i18n="nav_overview">Visión General</a></li>
+          <li><a href="#por-que-desktop" class="nav-link" data-i18n="nav_why">Por Qué Desktop</a></li>
+          <li><a href="#diferenciais" class="nav-link" data-i18n="nav_diff">Diferenciales</a></li>
+          <li><a href="#telas-app" class="nav-link" data-i18n="nav_screens">Pantallas</a></li>
+          <li><a href="#arquitetura" class="nav-link" data-i18n="nav_arch">Arquitectura</a></li>
+          <li><a href="#seguranca" class="nav-link" data-i18n="nav_security">Seguridad & .qpack</a></li>
+          <li><a href="#faq" class="nav-link" data-i18n="nav_faq">FAQ</a></li>
+          <li><a href="Apresentacao_Executiva_AXET_REEF.html" class="nav-link" style="color: #00c0f3; font-weight: 700; background: rgba(0,192,243,0.12); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(0,192,243,0.3);">📊 Slides Executivos</a></li>
+        </ul>
+      </nav>
+
+      <!-- Language Switcher & Mobile Toggle -->
+      <div class="header-actions">
+        <div class="lang-switcher" role="group" aria-label="Selector de idioma">
+          <button class="lang-btn active" data-lang="es" onclick="setLanguage('es')">ES</button>
+          <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+          <button class="lang-btn" data-lang="pt" onclick="setLanguage('pt')">PT</button>
+        </div>
+
+        <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Abrir Menú">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MOBILE DRAWER ==================== -->
+  <div class="mobile-nav-drawer" id="mobileDrawer">
+    <ul class="mobile-nav-links">
+      <li><a href="#overview" onclick="closeMobileMenu()" data-i18n="nav_overview">Visión General</a></li>
+      <li><a href="#por-que-desktop" onclick="closeMobileMenu()" data-i18n="nav_why">Por Qué Desktop</a></li>
+      <li><a href="#diferenciais" onclick="closeMobileMenu()" data-i18n="nav_diff">Diferenciales</a></li>
+      <li><a href="#telas-app" onclick="closeMobileMenu()" data-i18n="nav_screens">Pantallas</a></li>
+      <li><a href="#arquitetura" onclick="closeMobileMenu()" data-i18n="nav_arch">Arquitectura</a></li>
+      <li><a href="#seguranca" onclick="closeMobileMenu()" data-i18n="nav_security">Seguridad & .qpack</a></li>
+      <li><a href="#faq" onclick="closeMobileMenu()" data-i18n="nav_faq">FAQ</a></li>
+    </ul>
+  </div>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero-section" id="inicio">
+    <div class="hero-particles"></div>
+    <div class="container" id="overview">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge-tag">
+            <span data-i18n="hero_badge">⚡ Desktop Nativo (macOS y Windows) • Air-Gapped Ready</span>
+          </div>
+          <h1 class="hero-title">
+            AXET-NeuralGraph 3D<br>
+            <span data-i18n="hero_title_highlight">Inteligencia Cognitiva con Grafo Neural Tridimensional</span>
+          </h1>
+          <p class="hero-subtitle" data-i18n="hero_subtitle">
+            La plataforma de escritorio de NTT DATA diseñada para indexar con extrema rapidez acervos masivos de ingeniería, core asegurador (Reef.core) y matrices regulatorias — impulsada por la misión en <strong>MAPFRE</strong> con <strong>+1.000 horas de video (pantallas y transcripción)</strong> y <strong>+2.000 documentos técnicos y funcionales</strong>. Arquitectura <strong>100% Local-First</strong> con aislamiento estricto contra fuga de datos, <strong>neuroplasticidad sintética</strong> en tiempo real y visualización neuroanatómica 3D inmersiva.
+          </p>
+
+          <div class="hero-actions">
+            <a href="Apresentacao_Executiva_AXET_REEF.html" class="btn-primary" style="background: linear-gradient(135deg, #0066ff, #00c0f3); box-shadow: 0 4px 15px rgba(0, 192, 243, 0.4);">
+              <span>📊 Modo Apresentação em Slides</span>
+            </a>
+            <a href="#diferenciais" class="btn-primary">
+              <span data-i18n="btn_explore_diff">🚀 Explorar los 6 Diferenciales</span>
+            </a>
+            <a href="#telas-app" class="btn-secondary">
+              <span data-i18n="btn_showcase">🖼️ Ver Demostración de Pantallas</span>
+            </a>
+          </div>
+
+          <!-- Hero KPI Stats (6 Key Metrics including MAPFRE Scale) -->
+          <div class="hero-stats-row">
+            <div class="hero-stat-card">
+              <div class="hero-stat-val" data-i18n="stat_videos_val">+1.000 h</div>
+              <div class="hero-stat-label" data-i18n="stat_videos">Videos Indexados (Telas & Transcrição)</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="hero-stat-val" data-i18n="stat_docs_val">+2.000</div>
+              <div class="hero-stat-label" data-i18n="stat_docs">Docs Técnicos & Funcionais</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="hero-stat-val">3.111+</div>
+              <div class="hero-stat-label" data-i18n="stat_nodes">Nodos Semánticos 3D</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="hero-stat-val">9.472+</div>
+              <div class="hero-stat-label" data-i18n="stat_synapses">Sinapsis 3D Mapeadas</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="hero-stat-val">100%</div>
+              <div class="hero-stat-label" data-i18n="stat_localhost">Localhost / Air-Gapped</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="hero-stat-val">&lt; 2 seg</div>
+              <div class="hero-stat-label" data-i18n="stat_federation">Federación de Sinapsis</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Window Showcase Frame -->
+        <div>
+          <div class="app-window-frame" title="Click para ampliar la visualización 3D">
+            <div class="window-header-bar">
+              <div class="window-traffic-lights">
+                <span class="traffic-dot dot-red"></span>
+                <span class="traffic-dot dot-yellow"></span>
+                <span class="traffic-dot dot-green"></span>
+              </div>
+              <div class="window-title-text">
+                <span>AXET NeuralGraph 3D - v1.0.30 (Tauri)</span>
+              </div>
+              <span class="window-telemetry-tag">● 3D ONLINE</span>
+            </div>
+            <img 
+              src="assets/screen_neural_graph_3d.jpg" 
+              alt="Grafo Neural 3D Anatómico - AXET NeuralGraph" 
+              class="window-screen-img"
+              onclick="openLightbox('assets/screen_neural_graph_3d.jpg', t('lightbox_hero'))"
+            >
+          </div>
+          <p style="text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.6); margin-top:10px;" data-i18n="hero_zoom_hint">
+            🔍 Haz clic en la ventana para ampliar el Grafo Neural 3D anatómico en alta resolución.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION: PROPOSITO & POR QUE DESKTOP ==================== -->
+  <section class="section-wrap" id="por-que-desktop">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag" data-i18n="why_tag">Ingeniería Local-First</span>
+        <h2 class="section-title" data-i18n="why_title">¿Por Qué Creamos Una Aplicación de Escritorio Nativa?</h2>
+        <p class="section-subtitle" data-i18n="why_subtitle">
+          Las corporaciones con secretos industriales, normativas regulatorias estrictas (SUSEP/DGSFP) y bases de misión crítica no pueden depender de bots web genéricos en nubes compartidas.
+        </p>
+      </div>
+
+      <div class="why-desktop-grid">
+        <!-- The Problem -->
+        <div class="card-pain-vs-gain">
+          <div class="card-head-title">
+            <span style="font-size:1.8rem;">⚠️</span>
+            <h3 data-i18n="pain_title">Los Riesgos de las Soluciones Web Tradicionales</h3>
+          </div>
+          <ul class="feature-check-list">
+            <li>
+              <span class="check-icon-box check-bad">✕</span>
+              <div>
+                <strong data-i18n="pain_1_t">Fuga de Código y Propiedad Intelectual:</strong> <span data-i18n="pain_1_d">La carga de archivos corporativos a nubes públicas expone secretos industriales a fugas y entrenamiento involuntario de LLMs.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon-box check-bad">✕</span>
+              <div>
+                <strong data-i18n="pain_2_t">Alto Costo de Embeddings por Usuario:</strong> <span data-i18n="pain_2_d">Cada colaborador calculando vectores en la nube consume miles de dólares en tokens recurrentes.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon-box check-bad">✕</span>
+              <div>
+                <strong data-i18n="pain_3_t">Alucinaciones Fuera de Dominio:</strong> <span data-i18n="pain_3_d">Los modelos web mezclan reglas corporativas internas con conjeturas de internet sin anclaje canónico estricto.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon-box check-bad">✕</span>
+              <div>
+                <strong data-i18n="pain_4_t">Memoria Rígida y Estática:</strong> <span data-i18n="pain_4_d">Si el modelo comete un error de interpretación, este persiste indefinidamente hasta un reentrenamiento manual complejo.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- The Solution -->
+        <div class="card-pain-vs-gain gain">
+          <div class="card-head-title">
+            <span style="font-size:1.8rem;">🛡️</span>
+            <h3 data-i18n="gain_title">La Ventaja de AXET-NeuralGraph Desktop</h3>
+          </div>
+          <ul class="feature-check-list">
+            <li>
+              <span class="check-icon-box check-good">✓</span>
+              <div>
+                <strong data-i18n="gain_1_t">Aislamiento Local Estricto (127.0.0.1):</strong> <span data-i18n="gain_1_d">Cero tráfico de datos sensibles en internet. Preguntas, sinapsis e historial permanecen 100% blindados en la máquina.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon-box check-good">✓</span>
+              <div>
+                <strong data-i18n="gain_2_t">Cero Costo de Tokens en el Cliente:</strong> <span data-i18n="gain_2_d">El usuario importa la base preindexada comprimida (.qpack) en segundos, sin requerir GPU ni tokens de embedding.</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon-box check-good">✓</span>
+              <div>
+                <strong data-i18n="gain_3_t">Rendimiento Extremo con Tauri v2 (Rust):</strong> <span data-i18n="gain_3_d">El ejecutable nativo consume menos de 100MB de RAM (frente a los gigabytes de navegadores pesados o Electron).</span>
+              </div>
+            </li>
+            <li>
+              <span class="check-icon-box check-good">✓</span>
+              <div>
+                <strong data-i18n="gain_4_t">Neuroplasticidad Sintética en Tiempo Real:</strong> <span data-i18n="gain_4_d">El asistente detecta fallos en su propio razonamiento y muta el grafo al instante con nuevas reglas canónicas.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- MAPFRE FOUNDING MOTIVATION & HIGH-SCALE INDEXING SHOWCASE -->
+      <div class="mapfre-case-card">
+        <div class="mapfre-badge-tag">
+          <span data-i18n="mapfre_tag">🎯 CASO REAL • ORIGEN & MOTIVACIÓN MAPFRE</span>
+        </div>
+        <h3 class="mapfre-case-title" data-i18n="mapfre_title">
+          La Misión de Origen: <span>Indexación Ultrarrápida para MAPFRE</span>
+        </h3>
+        <p class="mapfre-case-lead" data-i18n="mapfre_lead">
+          El nacimiento de AXET-NeuralGraph 3D fue impulsado por una urgencia crítica en <strong>MAPFRE</strong>: procesar e indexar en tiempo récord un acervo masivo de <strong>más de 1.000 horas de video</strong> (con captura de pantallas de sistemas legados de seguros y transcripción continua) y <strong>más de 2.000 documentos técnicos y funcionales</strong> de ingeniería (Reef.core). Las soluciones convencionales de nube eran lentas, caras y vulnerables; se diseñó esta arquitectura desktop nativa para lograr velocidad extrema con soberanía absoluta de datos.
+        </p>
+
+        <div class="mapfre-case-grid">
+          <div class="mapfre-pillar-card">
+            <span class="mapfre-pillar-icon">📹</span>
+            <h4 class="mapfre-pillar-title" data-i18n="mapfre_col1_t">1. El Reto del Acervo Masivo</h4>
+            <p class="mapfre-pillar-desc" data-i18n="mapfre_col1_d">
+              Mapfre disponía de cientos de gigabytes en grabaciones de capacitaciones, navegación en telas operacionales de emisión y siniestros, y miles de PDFs/DOCs de especificación core. Subir este material a nubes comerciales demandaba semanas de transferencia y miles de dólares en tokens.
+            </p>
+          </div>
+
+          <div class="mapfre-pillar-card">
+            <span class="mapfre-pillar-icon">⚡</span>
+            <h4 class="mapfre-pillar-title" data-i18n="mapfre_col2_t">2. La Motivación: Velocidad Extrema y Local-First</h4>
+            <p class="mapfre-pillar-desc" data-i18n="mapfre_col2_d">
+              La premisa era insustituible: contar con un motor de indexación de altísima velocidad capaz de procesar videos cuadro a cuadro (OCR visual) y audio (Whisper local) directamente en la estación de trabajo, blindando el secreto industrial y reduciendo el tiempo de disponibilización a minutos.
+            </p>
+          </div>
+
+          <div class="mapfre-pillar-card">
+            <span class="mapfre-pillar-icon">🌌</span>
+            <h4 class="mapfre-pillar-title" data-i18n="mapfre_col3_t">3. El Resultado: Grafo 3D y .qpack</h4>
+            <p class="mapfre-pillar-desc" data-i18n="mapfre_col3_d">
+              Todo el contenido fue sintetizado en un Grafo Neural anatómico de 3.111 nodos y 9.472 sinapsis. Con la compresión .qpack, los equipos de desarrollo y negocio de Mapfre navegan hoy en cualquier pantalla o regla técnica en menos de 2 segundos, sin tocar internet.
+            </p>
+          </div>
+        </div>
+
+        <!-- High-Impact KPI Strip -->
+        <div class="mapfre-kpi-strip">
+          <div class="mapfre-kpi-item">
+            <span class="kpi-num" data-i18n="mapfre_kpi1_num">+1.000 h</span>
+            <span class="kpi-txt" data-i18n="mapfre_kpi1_txt">Videos de Capacitación y Telas Operacionales Indexadas</span>
+          </div>
+          <div class="mapfre-kpi-item">
+            <span class="kpi-num" data-i18n="mapfre_kpi2_num">+2.000</span>
+            <span class="kpi-txt" data-i18n="mapfre_kpi2_txt">Documentos Técnicos y Funcionales de Reef.core</span>
+          </div>
+          <div class="mapfre-kpi-item">
+            <span class="kpi-num" data-i18n="mapfre_kpi3_num">100% Local</span>
+            <span class="kpi-txt" data-i18n="mapfre_kpi3_txt">Whisper int8 + OCR sin Fuga de Datos a la Nube</span>
+          </div>
+          <div class="mapfre-kpi-item">
+            <span class="kpi-num" data-i18n="mapfre_kpi4_num">&lt; 2 seg</span>
+            <span class="kpi-txt" data-i18n="mapfre_kpi4_txt">Respuesta Instantánea en el Grafo Tridimensional</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION: 6 DIFERENCIAIS ==================== -->
+  <section class="section-wrap bg-alt" id="diferenciais">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag" data-i18n="diff_tag">Diferenciales Disruptivos</span>
+        <h2 class="section-title" data-i18n="diff_title">Los 6 Pilares Tecnológicos del Sistema</h2>
+        <p class="section-subtitle" data-i18n="diff_subtitle">
+          Una arquitectura incomparable concebida por NTT DATA para transformar volúmenes masivos de documentación no estructurada en conocimiento vivo, seguro y navegable.
+        </p>
+      </div>
+
+      <div class="differentials-grid">
+        <!-- Diff 1 -->
+        <div class="diff-card">
+          <div>
+            <div class="diff-icon-wrap">🌌</div>
+            <span class="diff-badge" data-i18n="diff_1_badge">Neuroanatomía 3D</span>
+            <h3 class="diff-title" data-i18n="diff_1_title">Grafo Neural Tridimensional con Malla Encefálica</h3>
+            <p class="diff-desc" data-i18n="diff_1_desc">
+              Renderizado en WebGL (Three.js) envuelto por una cáscara holográfica anatómica de cerebro humano (brain.glb). Los documentos se mapean espacialmente según su función cognitiva: Lóbulo Temporal (pólizas y memoria semántica), Frontal (reglas ejecutivas), Parietal (integración técnica) y Occipital (multimodalidad).
+            </p>
+          </div>
+          <div class="diff-highlight-pill" data-i18n="diff_1_pill">
+            ⚡ <strong>3.111 nodos y 9.472 sinapsis</strong> con inspección 360°, filtro de tensión y trazabilidad de procedencia documental.
+          </div>
+        </div>
+
+        <!-- Diff 2 -->
+        <div class="diff-card">
+          <div>
+            <div class="diff-icon-wrap">🧠</div>
+            <span class="diff-badge" data-i18n="diff_2_badge">Cognición Dinámica</span>
+            <h3 class="diff-title" data-i18n="diff_2_title">Neuroplasticidad Sintética y Auto-Rectificación</h3>
+            <p class="diff-desc" data-i18n="diff_2_desc">
+              Durante la conversación, si la IA detecta una inconsistencia lógica en su razonamiento preliminar, emite una auto-rectificación autónoma. El sistema muta instantáneamente el grafo, creando un nodo APRENDIZADO_COGNITIVO y una arista RETIFICA_CONCEITO (peso 2.5+), priorizando esa directriz canónica en las siguientes consultas.
+            </p>
+          </div>
+          <div class="diff-highlight-pill" data-i18n="diff_2_pill">
+            💡 <strong>Tarjeta visual interactiva</strong> en el globo de chat: <em>"Aprendizaje Ocurrido • Nueva Sinapsis en el Grafo"</em>.
+          </div>
+        </div>
+
+        <!-- Diff 3 -->
+        <div class="diff-card">
+          <div>
+            <div class="diff-icon-wrap">🌐</div>
+            <span class="diff-badge" data-i18n="diff_3_badge">Gobernanza Sin Permisos</span>
+            <h3 class="diff-title" data-i18n="diff_3_title">Federación Dual Git con Cero Impacto de Permisos</h3>
+            <p class="diff-desc" data-i18n="diff_3_desc">
+              ¿Cómo sincronizar los aprendizajes de cientos de colaboradores sin agregarlos como desarrolladores en el repositorio? Las sinapsis locales se transmiten mediante una bandeja de salida local a GitHub Issues (etiqueta cognitive-learning) sin requerir cuenta ni permisos de commit. El Master Admin aprueba y genera paquetes globales (.pack) descargados por todos en &lt; 2s.
+            </p>
+          </div>
+          <div class="diff-highlight-pill" data-i18n="diff_3_pill">
+            🔒 <strong>Cero privilegios en el usuario final</strong> y curaduría formal centralizada en el panel administrativo.
+          </div>
+        </div>
+
+        <!-- Diff 4 -->
+        <div class="diff-card">
+          <div>
+            <div class="diff-icon-wrap">🛡️</div>
+            <span class="diff-badge" data-i18n="diff_4_badge">Máxima Seguridad</span>
+            <h3 class="diff-title" data-i18n="diff_4_title">RAG Local-First Estricto y Blindaje Epistémico</h3>
+            <p class="diff-desc" data-i18n="diff_4_desc">
+              Toda la infraestructura se ejecuta con enlaces estrictamente locales en 127.0.0.1. Los colaboradores nunca reciben texto plano en disco, solo paquetes vectoriales (.qpack) con verificación criptográfica SHA-256. El Blindaje Epistémico asegura que los adjuntos del usuario sean volátiles, prohibiendo tajantemente la contaminación del grafo permanente.
+            </p>
+          </div>
+          <div class="diff-highlight-pill" data-i18n="diff_4_pill">
+            🛑 <strong>Prevención de Data Poisoning:</strong> Archivos no auditados nunca se convierten en reglas permanentes.
+          </div>
+        </div>
+
+        <!-- Diff 5 -->
+        <div class="diff-card">
+          <div>
+            <div class="diff-icon-wrap">📎</div>
+            <span class="diff-badge" data-i18n="diff_5_badge">Multimodalidad Real</span>
+            <h3 class="diff-title" data-i18n="diff_5_title">Chat Multimodal con Telemetría Dinámica (SSE)</h3>
+            <p class="diff-desc" data-i18n="diff_5_desc">
+              Ingesta en sesión de documentos corporativos (PDFs multipágina con conteo de caracteres, presentaciones PowerPoint con notas del orador y documentos Word) y hasta 3 imágenes con muestreo inteligente Pillow (1080p). En lugar de "3 puntos", el globo de respuesta muestra paso a paso el progreso del motor en tiempo real.
+            </p>
+          </div>
+          <div class="diff-highlight-pill" data-i18n="diff_5_pill">
+            📊 <strong>Retroalimentación transparente:</strong> <em>"Leyendo PDF..."</em> ➔ <em>"Consultando Grafo..."</em> ➔ <em>"Elaborando Respuesta..."</em>.
+          </div>
+        </div>
+
+        <!-- Diff 6 -->
+        <div class="diff-card">
+          <div>
+            <div class="diff-icon-wrap">⚖️</div>
+            <span class="diff-badge" data-i18n="diff_6_badge">Compliance Corporativo</span>
+            <h3 class="diff-title" data-i18n="diff_6_title">Matriz Regulatoria y Glosario De ➔ Para</h3>
+            <p class="diff-desc" data-i18n="diff_6_desc">
+              Módulo administrativo especializado en jurisdicciones y entidades reguladoras por país (SUSEP en Brasil, DGSFP en España, etc.). El sistema opera con tesauro semántico corporativo y equivalencias conceptuales, asegurando que términos como "póliza", "siniestro", "prima" y "liquidación" sigan rigurosamente las normas de cada mercado.
+            </p>
+          </div>
+          <div class="diff-highlight-pill" data-i18n="diff_6_pill">
+            🏛️ <strong>Control de jurisdicción activa:</strong> Adaptación instantánea de las reglas a las normativas vigentes.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION: GALERIA INTERATIVA DAS TELAS ==================== -->
+  <section class="section-wrap" id="telas-app">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag" data-i18n="screens_tag">Recorrido Visual del Producto</span>
+        <h2 class="section-title" data-i18n="screens_title">Galería de Pantallas de la Aplicación Desktop</h2>
+        <p class="section-subtitle" data-i18n="screens_subtitle">
+          Descubre cada detalle de la experiencia de uso real de AXET-NeuralGraph 3D en ejecución, desde la navegación tridimensional en el encéfalo hasta la gobernanza regulatoria.
+        </p>
+      </div>
+
+      <div class="screens-showcase-wrap">
+        <!-- Screen 1: Grafo 3D -->
+        <div class="screen-feature-row">
+          <div class="screen-image-container" onclick="openLightbox('assets/screen_neural_graph_3d.jpg', t('screen_1_cap'))">
+            <img src="assets/screen_neural_graph_3d.jpg" alt="Grafo Neural 3D">
+            <div class="screen-overlay-zoom">
+              <span data-i18n="click_expand">🔍 Clic para Expandir</span>
+            </div>
+          </div>
+          <div class="screen-details-content">
+            <div class="screen-index-badge">
+              <span data-i18n="screen_1_badge">Módulo 01 • Visualización Espacial 3D</span>
+            </div>
+            <h3 class="screen-title" data-i18n="screen_1_title">Grafo Neural Tridimensional y Lóbulos Corticales</h3>
+            <p class="screen-desc" data-i18n="screen_1_desc">
+              Representación visual interactiva de la memoria técnica de la organización. El modelo 3D encapsula documentos en una malla anatómica vítrea. En la imagen se destaca el <strong>Lóbulo Temporal Izquierdo</strong> (36% del grafo, responsable de la memoria declarativa de pólizas y reglas de negocio de Reef.core).
+            </p>
+            <div class="screen-specs-grid">
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k1_1">Estadísticas del Grafo</div>
+                <div class="spec-val" data-i18n="spec_v1_1">3.111 Nodos • 9.472 Sinapsis</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k1_2">Motor Gráfico</div>
+                <div class="spec-val">Three.js WebGL + GLTFLoader</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k1_3">Lóbulos Mapeados</div>
+                <div class="spec-val" data-i18n="spec_v1_3">Frontal, Parietal, Temporal, Occipital</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k1_4">Control de Cámara</div>
+                <div class="spec-val" data-i18n="spec_v1_4">Orbital 360° + Zoom Sináptico</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 2: Inspeção de Nó Semântico (Reverse) -->
+        <div class="screen-feature-row reverse">
+          <div class="screen-image-container" onclick="openLightbox('assets/screen_node_inspection.jpg', t('screen_2_cap'))">
+            <img src="assets/screen_node_inspection.jpg" alt="Inspección de Nodo Semántico">
+            <div class="screen-overlay-zoom">
+              <span data-i18n="click_expand">🔍 Clic para Expandir</span>
+            </div>
+          </div>
+          <div class="screen-details-content">
+            <div class="screen-index-badge">
+              <span data-i18n="screen_2_badge">Módulo 02 • Trazabilidad Epistémica</span>
+            </div>
+            <h3 class="screen-title" data-i18n="screen_2_title">Inspección Detallada de Nodos y Rol Cognitivo</h3>
+            <p class="screen-desc" data-i18n="screen_2_desc">
+              Al seleccionar cualquier nodo en el universo 3D, el asistente abre el panel de auditoría del documento. Es posible examinar la procedencia exacta en el acervo técnico (Reef Academy), la autoridad conceptual, la fecha de ingesta y todas las aristas sinápticas que conectan esa especificación con otros subsistemas.
+            </p>
+            <div class="screen-specs-grid">
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k2_1">Ejemplo Seleccionado</div>
+                <div class="spec-val" data-i18n="spec_v2_1">Definición de Ramo Salud (Reef.core)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k2_2">Origen Documental</div>
+                <div class="spec-val" data-i18n="spec_v2_2">Reef Academy / Ingesta MD</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k2_3">Relación Sináptica</div>
+                <div class="spec-val" data-i18n="spec_v2_3">Complementa (7.590) • Sustituye (41)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k2_4">Rol Cognitivo</div>
+                <div class="spec-val" data-i18n="spec_v2_4">Definición Arquitectónica Canónica</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 3: Assistente Contextual Imersivo -->
+        <div class="screen-feature-row">
+          <div class="screen-image-container" onclick="openLightbox('assets/screen_graph_immersive.jpg', t('screen_3_cap'))">
+            <img src="assets/screen_graph_immersive.jpg" alt="Asistente Contextual">
+            <div class="screen-overlay-zoom">
+              <span data-i18n="click_expand">🔍 Clic para Expandir</span>
+            </div>
+          </div>
+          <div class="screen-details-content">
+            <div class="screen-index-badge">
+              <span data-i18n="screen_3_badge">Módulo 03 • Memoria a Largo Plazo</span>
+            </div>
+            <h3 class="screen-title" data-i18n="screen_3_title">Asistente Cognitivo Integrado al Universo Neural</h3>
+            <p class="screen-desc" data-i18n="screen_3_desc">
+              El asistente mantiene memoria persistente de conversaciones anteriores incluso tras reinicios. Al navegar en el universo 3D, la tarjeta inteligente recapitula las últimas interacciones del colaborador (<em>"¡Buenas tardes, Gustavo! Recordé que estábamos hablando sobre procedimientos operativos..."</em>), permitiendo la continuidad fluida del trabajo.
+            </p>
+            <div class="screen-specs-grid">
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k3_1">Persistencia</div>
+                <div class="spec-val">PostgreSQL 16 Relacional</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k3_2">Sesiones Activas</div>
+                <div class="spec-val" data-i18n="spec_v3_2">Historial Completo Indexado</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k3_3">Continuación</div>
+                <div class="spec-val" data-i18n="spec_v3_3">1 Clic para Reanudar Chat</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k3_4">Interacción</div>
+                <div class="spec-val" data-i18n="spec_v3_4">HUD Flotante No Bloqueante</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 4: Chat Interativo & Streaming SSE (Reverse) -->
+        <div class="screen-feature-row reverse">
+          <div class="screen-image-container" onclick="openLightbox('assets/screen_chat_streaming.jpg', t('screen_4_cap'))">
+            <img src="assets/screen_chat_streaming.jpg" alt="Chat Interactivo y Streaming">
+            <div class="screen-overlay-zoom">
+              <span data-i18n="click_expand">🔍 Clic para Expandir</span>
+            </div>
+          </div>
+          <div class="screen-details-content">
+            <div class="screen-index-badge">
+              <span data-i18n="screen_4_badge">Módulo 04 • Motor de Razonamiento RAG</span>
+            </div>
+            <h3 class="screen-title" data-i18n="screen_4_title">Chat con Streaming SSE y Telemetría Dinámica</h3>
+            <p class="screen-desc" data-i18n="screen_4_desc">
+              Durante el envío de preguntas técnicas complejas (ej: <em>"¿Cómo está estructurada la integración técnica y el flujo de liquidaciones en Reef.core?"</em>), el globo de respuesta comunica de forma transparente cada fase del flujo cognitivo vía Server-Sent Events, garantizando exactitud milimétrica y ausencia de alucinaciones.
+            </p>
+            <div class="screen-specs-grid">
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k4_1">Protocolo de Comunicación</div>
+                <div class="spec-val">Server-Sent Events (SSE) Asíncrono</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k4_2">Motor Vectorial</div>
+                <div class="spec-val">Qdrant HNSW Cosine Index</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k4_3">Modelo de Embeddings</div>
+                <div class="spec-val">BAAI/bge-m3 Local (Dense + Sparse)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k4_4">Indicador de Estado</div>
+                <div class="spec-val" data-i18n="spec_v4_4">Leyendo ➔ Buscando ➔ Razonando</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 5: Dashboard e Okta SSO -->
+        <div class="screen-feature-row">
+          <div class="screen-image-container" onclick="openLightbox('assets/screen_home_dashboard.jpg', t('screen_5_cap'))">
+            <img src="assets/screen_home_dashboard.jpg" alt="Dashboard Inicial">
+            <div class="screen-overlay-zoom">
+              <span data-i18n="click_expand">🔍 Clic para Expandir</span>
+            </div>
+          </div>
+          <div class="screen-details-content">
+            <div class="screen-index-badge">
+              <span data-i18n="screen_5_badge">Módulo 05 • Experiencia de Usuario</span>
+            </div>
+            <h3 class="screen-title" data-i18n="screen_5_title">Dashboard Inicial, Okta SSO y Preguntas Sugeridas</h3>
+            <p class="screen-desc" data-i18n="screen_5_desc">
+              La pantalla principal recibe al usuario corporativo con su perfil autenticado vía Okta SSO (OneNTT). El asistente evalúa la base vectorial cargada y genera preguntas sugeridas dinámicas de acuerdo con el contexto indexado, facilitando el onboarding de nuevos ingenieros y analistas.
+            </p>
+            <div class="screen-specs-grid">
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k5_1">Autenticación</div>
+                <div class="spec-val">Okta Device Flow (OneNTT) + JWT</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k5_2">Sugerencias Contextuales</div>
+                <div class="spec-val" data-i18n="spec_v5_2">Basadas en el Acervo Indexado</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k5_3">Búsqueda en Historial</div>
+                <div class="spec-val" data-i18n="spec_v5_3">Filtro Rápido por Palabras Clave</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k5_4">Accesos Directos</div>
+                <div class="spec-val" data-i18n="spec_v5_4">Sincronizar Base, Grafo 3D, Admin</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 6: Painel Admin & Matriz Regulatória (Reverse) -->
+        <div class="screen-feature-row reverse">
+          <div class="screen-image-container" onclick="openLightbox('assets/screen_admin_regulatory.jpg', t('screen_6_cap'))">
+            <img src="assets/screen_admin_regulatory.jpg" alt="Panel Administrativo">
+            <div class="screen-overlay-zoom">
+              <span data-i18n="click_expand">🔍 Clic para Expandir</span>
+            </div>
+          </div>
+          <div class="screen-details-content">
+            <div class="screen-index-badge">
+              <span data-i18n="screen_6_badge">Módulo 06 • Gobernanza y Regulación</span>
+            </div>
+            <h3 class="screen-title" data-i18n="screen_6_title">Panel Administrativo y Matriz Regulatoria De ➔ Para</h3>
+            <p class="screen-desc" data-i18n="screen_6_desc">
+              Área de control del Master Admin. Permite fijar la jurisdicción activa de operación, mapear los organismos reguladores oficiales (ej: SUSEP, DGSFP), configurar equivalencias De ➔ Para entre terminologías de seguros y administrar el ciclo de snapshots criptográficos (.qpack).
+            </p>
+            <div class="screen-specs-grid">
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k6_1">Jurisdicción</div>
+                <div class="spec-val" data-i18n="spec_v6_1">Multipaís (España, Brasil, etc.)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k6_2">Tesauro De ➔ Para</div>
+                <div class="spec-val" data-i18n="spec_v6_2">Equivalencias Semánticas Estrictas</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k6_3">Gestión de Snapshots</div>
+                <div class="spec-val" data-i18n="spec_v6_3">Exportación y Firma SHA-256</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-key" data-i18n="spec_k6_4">Curaduría de Sinapsis</div>
+                <div class="spec-val" data-i18n="spec_v6_4">Aprobación de Aprendizajes Cognitivos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION: ARQUITETURA TECNICA ==================== -->
+  <section class="section-wrap bg-alt" id="arquitetura">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag" data-i18n="arch_tag">Ingeniería de Software</span>
+        <h2 class="section-title" data-i18n="arch_title">Arquitectura Técnica en 4 Capas</h2>
+        <p class="section-subtitle" data-i18n="arch_subtitle">
+          Construido sobre el estado del arte del desarrollo moderno de software con Rust, WebGL, Python asíncrono y bases de datos vectoriales de última generación.
+        </p>
+      </div>
+
+      <!-- 4 Stack Layers -->
+      <div class="arch-stack-grid">
+        <div class="arch-layer-card">
+          <div class="spec-key" data-i18n="layer_1_tag">Capa 01</div>
+          <h4 class="arch-layer-title" data-i18n="layer_1_title">Shell Desktop (Nativo)</h4>
+          <p style="font-size:0.86rem; color:var(--text-body); line-height:1.5;" data-i18n="layer_1_desc">
+            Ejecutable nativo en Rust vía Tauri v2. Consumo &lt; 100MB RAM, integración con diálogos nativos del SO (selector de carpetas OneDrive), atajos de teclado y ciclo de vida optimizado.
+          </p>
+          <div class="arch-tech-tags">
+            <span class="tech-tag">Tauri v2</span>
+            <span class="tech-tag">Rust</span>
+            <span class="tech-tag">macOS .dmg</span>
+            <span class="tech-tag">Windows .msi</span>
+          </div>
+        </div>
+
+        <div class="arch-layer-card">
+          <div class="spec-key" data-i18n="layer_2_tag">Capa 02</div>
+          <h4 class="arch-layer-title" data-i18n="layer_2_title">Frontend Reactivo & 3D</h4>
+          <p style="font-size:0.86rem; color:var(--text-body); line-height:1.5;" data-i18n="layer_2_desc">
+            Single-Page Application con Next.js 14 y Three.js para renderizado fluido de la malla encefálica holográfica a 60 FPS, diseñada con el Design System corporativo de NTT DATA.
+          </p>
+          <div class="arch-tech-tags">
+            <span class="tech-tag">Next.js 14</span>
+            <span class="tech-tag">Three.js</span>
+            <span class="tech-tag">GLTFLoader</span>
+            <span class="tech-tag">Tailwind CSS</span>
+          </div>
+        </div>
+
+        <div class="arch-layer-card">
+          <div class="spec-key" data-i18n="layer_3_tag">Capa 03</div>
+          <h4 class="arch-layer-title" data-i18n="layer_3_title">Backend API & Cognitivo</h4>
+          <p style="font-size:0.86rem; color:var(--text-body); line-height:1.5;" data-i18n="layer_3_desc">
+            Microservicio de alta concurrencia en FastAPI (Python 3.11). Enrutamiento asíncrono, SSE para streaming de respuestas, telemetría en tiempo real y orquestación RAG.
+          </p>
+          <div class="arch-tech-tags">
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Python 3.11</span>
+            <span class="tech-tag">Pydantic v2</span>
+            <span class="tech-tag">Asyncpg</span>
+          </div>
+        </div>
+
+        <div class="arch-layer-card">
+          <div class="spec-key" data-i18n="layer_4_tag">Capa 04</div>
+          <h4 class="arch-layer-title" data-i18n="layer_4_title">Bases de Datos & Multimodal</h4>
+          <p style="font-size:0.86rem; color:var(--text-body); line-height:1.5;" data-i18n="layer_4_desc">
+            Almacenamiento híbrido: Qdrant Vector DB para búsqueda semántica aproximada por coseno, PostgreSQL 16 para entidades/grafos y Faster-Whisper para transcripción offline.
+          </p>
+          <div class="arch-tech-tags">
+            <span class="tech-tag">Qdrant HNSW</span>
+            <span class="tech-tag">Postgres 16</span>
+            <span class="tech-tag">Whisper int8</span>
+            <span class="tech-tag">FFmpeg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance & Distribution Charts -->
+      <div class="charts-dual-grid">
+        <div class="chart-container-card">
+          <h4 data-i18n="chart_ram_title">Consumo Medio de Memoria RAM (MB)</h4>
+          <p data-i18n="chart_ram_sub">Comparativo entre arquitecturas de asistentes desktop corporativos</p>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartRamBenchmark"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-container-card">
+          <h4 data-i18n="chart_lobes_title">Distribución Anatómica de Conocimiento</h4>
+          <p data-i18n="chart_lobes_sub">Mapeo de 3.111 nodos documentales por lóbulos encefálicos</p>
+          <div class="chart-canvas-wrap">
+            <canvas id="chartLobesDistribution"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION: SEGURANÇA & .QPACK ==================== -->
+  <section class="section-wrap" id="seguranca">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag" data-i18n="sec_tag">Distribución Cifrada</span>
+        <h2 class="section-title" data-i18n="sec_title">Cómo Funciona la Entrega Segura de Conocimiento</h2>
+        <p class="section-subtitle" data-i18n="sec_subtitle">
+          El modelo de paquetes precomputados (.qpack) elimina el riesgo de fuga de datos, descarga de trabajo a las estaciones clientes y garantiza integridad auditable.
+        </p>
+      </div>
+
+      <div class="flow-steps-grid">
+        <div class="flow-step-card">
+          <div class="flow-step-number">1</div>
+          <h4 class="flow-step-title" data-i18n="step_1_t">Ingesta por el Admin</h4>
+          <p class="flow-step-desc" data-i18n="step_1_d">
+            El Master Admin indexa la documentación canónica (manuales de Reef.core, normas y arquitecturas) en su entorno local seguro.
+          </p>
+        </div>
+
+        <div class="flow-step-card">
+          <div class="flow-step-number">2</div>
+          <h4 class="flow-step-title" data-i18n="step_2_t">Empaquetado .qpack</h4>
+          <p class="flow-step-desc" data-i18n="step_2_d">
+            El sistema extrae el snapshot atómico de Qdrant + metadatos de Postgres, comprime la base (reducción de hasta 85%) y firma con hash SHA-256.
+          </p>
+        </div>
+
+        <div class="flow-step-card">
+          <div class="flow-step-number">3</div>
+          <h4 class="flow-step-title" data-i18n="step_3_t">Distribución Segura</h4>
+          <p class="flow-step-desc" data-i18n="step_3_d">
+            El archivo .qpack se almacena en el SharePoint o Teams interno de NTT DATA. Ningún código fuente ni texto plano se transmite.
+          </p>
+        </div>
+
+        <div class="flow-step-card">
+          <div class="flow-step-number">4</div>
+          <h4 class="flow-step-title" data-i18n="step_4_t">Restauración en 1 Clic</h4>
+          <p class="flow-step-desc" data-i18n="step_4_d">
+            El usuario arrastra el archivo al panel de la app. El sistema valida el SHA-256 y restaura la base vectorial completa en menos de 15 segundos.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ACCORDION ==================== -->
+  <section class="section-wrap bg-alt" id="faq">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-tag" data-i18n="faq_tag">Dudas Técnicas & Gobernanza</span>
+        <h2 class="section-title" data-i18n="faq_title">Preguntas Frecuentes (FAQ)</h2>
+        <p class="section-subtitle" data-i18n="faq_subtitle">
+          Aclaraciones esenciales para líderes de TI, arquitectos corporativos y equipos de ciberseguridad (CISO).
+        </p>
+      </div>
+
+      <div class="faq-accordion">
+        <!-- Q1 -->
+        <div class="faq-item">
+          <div class="faq-header">
+            <span data-i18n="faq_q1">1. ¿Los datos de mi organización o las conversaciones de los colaboradores salen del equipo?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-body" data-i18n="faq_a1">
+            <strong>No.</strong> La aplicación se ejecuta con enlaces estrictamente aislados en 127.0.0.1 (localhost). Todo el procesamiento de búsqueda vectorial en Qdrant, persistencia relacional en PostgreSQL y navegación 3D ocurre exclusivamente en el hardware del colaborador. El único tráfico opcional es la consulta a APIs corporativas de IA vía proxy aXet con autenticación Okta Bearer.
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item">
+          <div class="faq-header">
+            <span data-i18n="faq_q2">2. ¿Qué ocurre si un usuario adjunta un PDF confidencial o imagen en el chat? ¿Se contamina el grafo?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-body" data-i18n="faq_a2">
+            <strong>No.</strong> El sistema implementa el mecanismo patentado de <strong>Blindaje Epistémico (Epistemic Sandboxing)</strong>. Los archivos e imágenes adjuntos se procesan exclusivamente en la memoria volátil de esa sesión. El disparador de auto-rectificación se desactiva estrictamente ante la presencia de adjuntos, impidiendo que datos no auditados se conviertan en nodos permanentes o integren paquetes federados (.pack).
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item">
+          <div class="faq-header">
+            <span data-i18n="faq_q3">3. ¿Cómo opera la Neuroplasticidad Sintética en la práctica?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-body" data-i18n="faq_a3">
+            Cuando el modelo identifica una contradicción o error en su razonamiento preliminar, emite un bloque de aprendizaje neural. El backend crea inmediatamente un nodo APRENDIZADO_COGNITIVO en PostgreSQL con una arista RETIFICA_CONCEITO de alto voltaje (peso 2.5+) y actualiza Qdrant. En futuras consultas, esta regla canónica se inyecta en la cúspide del prompt RAG, sobreescribiendo documentos obsoletos.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item">
+          <div class="faq-header">
+            <span data-i18n="faq_q4">4. ¿Los usuarios finales necesitan licencia o permisos de commit en GitHub para reportar aprendizajes?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-body" data-i18n="faq_a4">
+            <strong>Cero permisos.</strong> El modelo federado del Escenario 1 utiliza una bandeja de salida local que envía sinapsis anónimas a la API de GitHub Issues con etiqueta cognitive-learning. Los colaboradores no requieren cuenta de GitHub ni permisos de escritura. La curaduría corre a cargo del Master Admin en el panel web, quien compila la versión pública y la distribuye vía Releases en menos de 2 segundos.
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="faq-item">
+          <div class="faq-header">
+            <span data-i18n="faq_q5">5. ¿Cuál es el consumo de hardware de la aplicación en los equipos de los colaboradores?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-body" data-i18n="faq_a5">
+            Gracias al runtime nativo de <strong>Tauri v2 compilado en Rust</strong>, el shell de escritorio consume típicamente <strong>entre 80MB y 120MB de memoria RAM</strong>, funcionando con total fluidez incluso en portátiles corporativos estándar. El motor gráfico Three.js utiliza aceleración directa por hardware (WebGL).
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="faq-item">
+          <div class="faq-header">
+            <span data-i18n="faq_q6">6. ¿Cómo se integra AXET-NeuralGraph con sistemas legados y autenticación corporativa?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-body" data-i18n="faq_a6">
+            La plataforma incluye integración nativa con <strong>Okta SSO corporativo (OneNTT Device Flow)</strong>, además de compatibilidad con modelos locales y remotos vía aXet Gateway. El pipeline de ingesta admite archivos Markdown, Word, presentaciones PowerPoint con notas del orador, PDFs técnicos y transcripción de videos operativos vía Faster-Whisper y FFmpeg.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRESENTER TRAY MODAL ==================== -->
+  <div class="presenter-tray-btn" id="btn-open-tray" title="Abrir Visión Ejecutiva (Tecla A)">
+    <span data-i18n="tray_btn_text">🧠 Visión Ejecutiva</span>
+    <span style="background:rgba(255,255,255,0.2); font-size:0.68rem; padding:2px 6px; border-radius:4px;">A</span>
+  </div>
+
+  <div class="tray-modal-backdrop" id="tray-modal">
+    <div class="tray-modal-window">
+      <div class="tray-modal-header">
+        <div>
+          <span style="font-size:0.75rem; color:var(--ntt-cyan); font-weight:700; text-transform:uppercase; letter-spacing:0.05em;" data-i18n="tray_header_tag">NTT DATA • Sumario de Producto</span>
+          <h3 data-i18n="tray_header_title">AXET-NeuralGraph 3D — Visión Ejecutiva para Liderazgos</h3>
+        </div>
+        <button class="tray-modal-close" id="btn-close-tray">&times;</button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div style="background:rgba(255,255,255,0.05); padding:16px; border-radius:12px; border-left:4px solid var(--ntt-cyan);">
+          <h4 style="color:var(--ntt-cyan); margin-bottom:6px; font-size:1.05rem;" data-i18n="tray_p1_t">1. El Posicionamiento Estratégico</h4>
+          <p style="font-size:0.88rem; line-height:1.6; color:rgba(255,255,255,0.85);" data-i18n="tray_p1_d">
+            AXET-NeuralGraph 3D es la respuesta definitiva para organizaciones con propiedad intelectual altamente confidencial que necesitan acelerar el onboarding de ingeniería, clarificar arquitecturas legadas (como Reef.core) y asegurar conformidad regulatoria sin riesgo de fuga de datos corporativos.
+          </p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); padding:16px; border-radius:12px; border-left:4px solid var(--ntt-blue-light);">
+          <h4 style="color:var(--ntt-blue-light); margin-bottom:6px; font-size:1.05rem;" data-i18n="tray_p2_t">2. Innovación Arquitectónica Local-First</h4>
+          <p style="font-size:0.88rem; line-height:1.6; color:rgba(255,255,255,0.85);" data-i18n="tray_p2_d">
+            Al unir Tauri v2 en Rust con un pipeline de snapshots vectoriales comprimidos (.qpack), la solución entrega respuestas en milisegundos sin costos recurrentes de tokens de embedding para las estaciones de los colaboradores, con pleno cumplimiento de GDPR y normativas de privacidad.
+          </p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); padding:16px; border-radius:12px; border-left:4px solid var(--success);">
+          <h4 style="color:#34d399; margin-bottom:6px; font-size:1.05rem;" data-i18n="tray_p3_t">3. Autonomía Cognitiva y Federación</h4>
+          <p style="font-size:0.88rem; line-height:1.6; color:rgba(255,255,255,0.85);" data-i18n="tray_p3_d">
+            Por primera vez en un producto de IA corporativa, el asistente es capaz de auto-rectificar su propio razonamiento en tiempo real, mutar el grafo neural y sincronizar este conocimiento con toda la organización vía GitHub Releases en menos de 2 segundos, bajo gobernanza del Master Admin.
+          </p>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.05); padding:16px; border-radius:12px; border-left:4px solid #f59e0b;">
+          <h4 style="color:#f59e0b; margin-bottom:6px; font-size:1.05rem;" data-i18n="tray_p4_t">4. Caso MAPFRE: Validación en Escala Extrema</h4>
+          <p style="font-size:0.88rem; line-height:1.6; color:rgba(255,255,255,0.85);" data-i18n="tray_p4_d">
+            La motivación fundacional del producto fue la indexación ultrarrápida del acervo de Mapfre: +1.000 horas de videos (telas de sistemas legados de seguros y transcripción de voz con Whisper) y +2.000 documentos técnicos de Reef.core. La solución demostró viabilidad operacional reduciendo costos de nube a cero y garantizando seguridad corporativa total.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LIGHTBOX MODAL ==================== -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <div class="lightbox-content">
+      <button class="lightbox-close-btn" onclick="closeLightbox()">&times;</button>
+      <img src="" id="lightboxImg" alt="Captura de Pantalla">
+      <div class="lightbox-caption" id="lightboxCaption">Legenda</div>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="logo.png" alt="NTT DATA" style="height:32px; margin-bottom:12px; filter:brightness(0) invert(1);">
+          <strong>NTT DATA | Enterprise AI Desktop Solutions</strong>
+          <p style="max-width: 380px; line-height: 1.6; font-size: 0.85rem;" data-i18n="footer_brand_desc">
+            Ecosistema de Inteligencia Artificial Local-First para grandes corporaciones, aseguradoras y utilities. Grafo neural tridimensional, RAG de alta fidelidad y blindaje epistémico.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_col1_title">Diferenciales</h4>
+          <ul class="footer-links">
+            <li><a href="#diferenciais" data-i18n="footer_l1">Grafo Neural 3D Anatómico</a></li>
+            <li><a href="#diferenciais" data-i18n="footer_l2">Neuroplasticidad Sintética</a></li>
+            <li><a href="#diferenciais" data-i18n="footer_l3">Federación Sin Permisos</a></li>
+            <li><a href="#diferenciais" data-i18n="footer_l4">Blindaje Epistémico</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_col2_title">Ingeniería</h4>
+          <ul class="footer-links">
+            <li><a href="#arquitetura">Tauri v2 & Rust</a></li>
+            <li><a href="#arquitetura">Three.js & WebGL</a></li>
+            <li><a href="#arquitetura">FastAPI & Qdrant</a></li>
+            <li><a href="#seguranca" data-i18n="footer_l5">Distribución .qpack</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title" data-i18n="footer_col3_title">Gobernanza</h4>
+          <ul class="footer-links">
+            <li><a href="#telas-app" data-i18n="footer_l6">Matriz Regulatoria De ➔ Para</a></li>
+            <li><a href="#seguranca" data-i18n="footer_l7">Criptografía SHA-256</a></li>
+            <li><a href="#faq" data-i18n="footer_l8">Conformidad LGPD/GDPR</a></li>
+            <li><a href="#faq" data-i18n="footer_l9">Aclaraciones al CISO</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Leadership & Architecture Signature Card -->
+      <div style="margin: 32px 0 24px 0; padding: 20px 28px; border-radius: 14px; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.08); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; backdrop-filter: blur(10px);">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="background: linear-gradient(135deg, #0066cc, #00c0f3); color: #fff; font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.05em;">
+            AS - MAPPS BRASIL
+          </div>
+          <div>
+            <strong style="color: #fff; font-size: 0.95rem;">Liderança Executiva & Governança</strong>
+            <p style="font-size: 0.8rem; color: rgba(255,255,255,0.6); margin: 0;">Arquitetura Cognitiva & Inteligência Artificial Corporativa</p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: rgba(255,255,255,0.85);">
+          <div><strong style="color: #fff;">Leandro Bruzzese</strong> <span style="color: #00c0f3;">— Head MAPPS Brasil</span></div>
+          <span style="opacity: 0.3;">|</span>
+          <div><strong style="color: #fff;">Gustavo Costa Berbert</strong> <span style="color: #00c0f3;">— Diretor de MAPPS</span></div>
+          <span style="opacity: 0.3;">|</span>
+          <div><strong style="color: #fff;">Marcio Miguel</strong> <span style="color: #00c0f3;">— Arquiteto IA MAPPS</span></div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 NTT DATA Brasil • <span data-i18n="footer_rights">Todos los derechos reservados. Material de uso ejecutivo y técnico confidencial.</span>
+        </div>
+        <div>
+          AXET-NeuralGraph 3D • Desktop Native v1.0.30
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== JAVASCRIPT: I18N, CHARTS, FAQ, LIGHTBOX & MODALS ==================== -->
+  <script>
+    // ── COMPLETE I18N DICTIONARY (ES DEFAULT, EN, PT) ─────────────────────
+    const i18nData = {
+      es: {
+        page_title: "NTT DATA | AXET-NeuralGraph 3D — Plataforma Cognitiva Desktop & Grafo Neural Tridimensional",
+        nav_overview: "Visión General",
+        nav_why: "Por Qué Desktop",
+        nav_diff: "Diferenciales",
+        nav_screens: "Pantallas",
+        nav_arch: "Arquitectura",
+        nav_security: "Seguridad & .qpack",
+        nav_faq: "FAQ",
+        hero_badge: "⚡ Desktop Nativo (macOS y Windows) • Air-Gapped Ready",
+        hero_title_highlight: "Inteligencia Cognitiva con Grafo Neural Tridimensional",
+        hero_subtitle: "La plataforma de escritorio de NTT DATA diseñada para indexar con extrema rapidez acervos masivos de ingeniería, core asegurador (Reef.core) y matrices regulatorias — impulsada por la misión en <strong>MAPFRE</strong> con <strong>+1.000 horas de video (pantallas y transcripción)</strong> y <strong>+2.000 documentos técnicos y funcionales</strong>. Arquitectura <strong>100% Local-First</strong> con aislamiento estricto contra fuga de datos, <strong>neuroplasticidad sintética</strong> en tiempo real y visualización neuroanatómica 3D inmersiva.",
+        btn_explore_diff: "🚀 Explorar los 6 Diferenciales",
+        btn_showcase: "🖼️ Ver Demostración de Pantallas",
+        stat_nodes: "Nodos Semánticos",
+        stat_synapses: "Sinapsis 3D",
+                stat_videos_val: "+1.000 h",
+        stat_videos: "Videos Indexados (Pantallas y Transcripción)",
+        stat_docs_val: "+2.000",
+        stat_docs: "Documentos Técnicos y Funcionales",
+        stat_nodes: "Nodos Semánticos 3D",
+        stat_synapses: "Sinapsis 3D Mapeadas",
+        
+        mapfre_tag: "🎯 CASO REAL • ORIGEN & MOTIVACIÓN MAPFRE",
+        mapfre_title: "La Misión de Origen: <span>Indexación Ultrarrápida para MAPFRE</span>",
+        mapfre_lead: "El nacimiento de AXET-NeuralGraph 3D fue impulsado por una urgencia crítica en <strong>MAPFRE</strong>: procesar e indexar en tiempo récord un acervo masivo de <strong>más de 1.000 horas de video</strong> (con captura de pantallas de sistemas legados de seguros y transcripción continua) y <strong>más de 2.000 documentos técnicos y funcionales</strong> de ingeniería (Reef.core). Las soluciones convencionales de nube eran lentas, caras y vulnerables; se diseñó esta arquitectura desktop nativa para lograr velocidad extrema con soberanía absoluta de datos.",
+        mapfre_col1_t: "1. El Reto del Acervo Masivo",
+        mapfre_col1_d: "Mapfre disponía de cientos de gigabytes en grabaciones de capacitaciones, navegación en telas operacionales de emisión y siniestros, y miles de PDFs/DOCs de especificación core. Subir este material a nubes comerciales demandaba semanas de transferencia y miles de dólares en tokens.",
+        mapfre_col2_t: "2. La Motivación: Velocidad Extrema y Local-First",
+        mapfre_col2_d: "La premisa era insustituible: contar con un motor de indexación de altísima velocidad capaz de procesar videos cuadro a cuadro (OCR visual) y audio (Whisper local) directamente en la estación de trabajo, blindando el secreto industrial y reduciendo el tiempo de disponibilización a minutos.",
+        mapfre_col3_t: "3. El Resultado: Grafo 3D y .qpack",
+        mapfre_col3_d: "Todo el contenido fue sintetizado en un Grafo Neural anatómico de 3.111 nodos y 9.472 sinapsis. Con la compresión .qpack, los equipos de desarrollo y negocio de Mapfre navegan hoy en cualquier pantalla o regla técnica en menos de 2 segundos, sin tocar internet.",
+        mapfre_kpi1_num: "+1.000 h",
+        mapfre_kpi1_txt: "Videos de Capacitación y Telas Operacionales Indexadas",
+        mapfre_kpi2_num: "+2.000",
+        mapfre_kpi2_txt: "Documentos Técnicos y Funcionales de Reef.core",
+        mapfre_kpi3_num: "100% Local",
+        mapfre_kpi3_txt: "Whisper int8 + OCR sin Fuga de Datos a la Nube",
+        mapfre_kpi4_num: "< 2 seg",
+        mapfre_kpi4_txt: "Respuesta Instantánea en el Grafo Tridimensional",
+        tray_p4_t: "4. Caso MAPFRE: Validación en Escala Extrema",
+        tray_p4_d: "La motivación fundacional del producto fue la indexación ultrarrápida del acervo de Mapfre: +1.000 horas de videos (telas de sistemas legados de seguros y transcripción de voz con Whisper) y +2.000 documentos técnicos de Reef.core. La solución demostró viabilidad operacional reduciendo costos de nube a cero y garantizando seguridad corporativa total.",
+        stat_localhost: "Localhost / Air-Gapped",
+        stat_federation: "Federación de Sinapsis",
+        hero_zoom_hint: "🔍 Haz clic en la ventana para ampliar el Grafo Neural 3D anatómico en alta resolución.",
+        lightbox_hero: "Grafo Neural 3D Anatómico: 3.111 nodos y 9.472 sinapsis distribuidos en los lóbulos cerebrales en Three.js (brain.glb)",
+        
+        why_tag: "Ingeniería Local-First",
+        why_title: "¿Por Qué Creamos Una Aplicación de Escritorio Nativa?",
+        why_subtitle: "Las corporaciones con secretos industriales, normativas regulatorias estrictas (SUSEP/DGSFP) y bases de misión crítica no pueden depender de bots web genéricos en nubes compartidas.",
+        pain_title: "Los Riesgos de las Soluciones Web Tradicionales",
+        pain_1_t: "Fuga de Código y Propiedad Intelectual:",
+        pain_1_d: "La carga de archivos corporativos a nubes públicas expone secretos industriales a fugas y entrenamiento involuntario de LLMs.",
+        pain_2_t: "Alto Costo de Embeddings por Usuario:",
+        pain_2_d: "Cada colaborador calculando vectores en la nube consume miles de dólares en tokens recurrentes.",
+        pain_3_t: "Alucinaciones Fuera de Dominio:",
+        pain_3_d: "Los modelos web mezclan reglas corporativas internas con conjeturas de internet sin anclaje canónico estricto.",
+        pain_4_t: "Memoria Rígida y Estática:",
+        pain_4_d: "Si el modelo comete un error de interpretación, este persiste indefinidamente hasta un reentrenamiento manual complejo.",
+        
+        gain_title: "La Ventaja de AXET-NeuralGraph Desktop",
+        gain_1_t: "Aislamiento Local Estricto (127.0.0.1):",
+        gain_1_d: "Cero tráfico de datos sensibles en internet. Preguntas, sinapsis e historial permanecen 100% blindados en la máquina.",
+        gain_2_t: "Cero Costo de Tokens en el Cliente:",
+        gain_2_d: "El usuario importa la base preindexada comprimida (.qpack) en segundos, sin requerir GPU ni tokens de embedding.",
+        gain_3_t: "Rendimiento Extremo con Tauri v2 (Rust):",
+        gain_3_d: "El ejecutable nativo consume menos de 100MB de RAM (frente a los gigabytes de navegadores pesados o Electron).",
+        gain_4_t: "Neuroplasticidad Sintética en Tiempo Real:",
+        gain_4_d: "El asistente detecta fallos en su propio razonamiento y muta el grafo al instante con nuevas reglas canónicas.",
+
+        diff_tag: "Diferenciales Disruptivos",
+        diff_title: "Los 6 Pilares Tecnológicos del Sistema",
+        diff_subtitle: "Una arquitectura incomparable concebida por NTT DATA para transformar volúmenes masivos de documentación no estructurada en conocimiento vivo, seguro y navegable.",
+        diff_1_badge: "Neuroanatomía 3D",
+        diff_1_title: "Grafo Neural Tridimensional con Malla Encefálica",
+        diff_1_desc: "Renderizado en WebGL (Three.js) envuelto por una cáscara holográfica anatómica de cerebro humano (brain.glb). Los documentos se mapean espacialmente según su función cognitiva: Lóbulo Temporal (pólizas y memoria semántica), Frontal (reglas ejecutivas), Parietal (integración técnica) y Occipital (multimodalidad).",
+        diff_1_pill: "⚡ <strong>3.111 nodos y 9.472 sinapsis</strong> con inspección 360°, filtro de tensión y trazabilidad de procedencia documental.",
+        diff_2_badge: "Cognición Dinámica",
+        diff_2_title: "Neuroplasticidad Sintética y Auto-Rectificación",
+        diff_2_desc: "Durante la conversación, si la IA detecta una inconsistencia lógica en su razonamiento preliminar, emite una auto-rectificación autónoma. El sistema muta instantáneamente el grafo, creando un nodo APRENDIZADO_COGNITIVO y una arista RETIFICA_CONCEITO (peso 2.5+), priorizando esa directriz canónica en las siguientes consultas.",
+        diff_2_pill: "💡 <strong>Tarjeta visual interactiva</strong> en el globo de chat: <em>'Aprendizaje Ocurrido • Nueva Sinapsis en el Grafo'</em>.",
+        diff_3_badge: "Gobernanza Sin Permisos",
+        diff_3_title: "Federación Dual Git con Cero Impacto de Permisos",
+        diff_3_desc: "Las sinapsis locales se transmiten mediante una bandeja de salida local a GitHub Issues (etiqueta cognitive-learning) sin requerir cuenta ni permisos de commit. El Master Admin aprueba y genera paquetes globales (.pack) descargados por todos en < 2s.",
+        diff_3_pill: "🔒 <strong>Cero privilegios en el usuario final</strong> y curaduría formal centralizada en el panel administrativo.",
+        diff_4_badge: "Máxima Seguridad",
+        diff_4_title: "RAG Local-First Estricto y Blindaje Epistémico",
+        diff_4_desc: "Toda la infraestructura se ejecuta con enlaces estrictamente locales en 127.0.0.1. Los colaboradores nunca reciben texto plano en disco, solo paquetes vectoriales (.qpack) con verificación criptográfica SHA-256. El Blindaje Epistémico asegura que los adjuntos del usuario sean volátiles, prohibiendo tajantemente la contaminación del grafo permanente.",
+        diff_4_pill: "🛑 <strong>Prevención de Data Poisoning:</strong> Archivos no auditados nunca se convierten en reglas permanentes.",
+        diff_5_badge: "Multimodalidad Real",
+        diff_5_title: "Chat Multimodal con Telemetría Dinámica (SSE)",
+        diff_5_desc: "Ingesta en sesión de documentos corporativos (PDFs multipágina con conteo de caracteres, presentaciones PowerPoint con notas del orador y documentos Word) y hasta 3 imágenes con muestreo inteligente Pillow (1080p). En lugar de '3 puntos', el globo de respuesta muestra paso a paso el progreso del motor en tiempo real.",
+        diff_5_pill: "📊 <strong>Retroalimentación transparente:</strong> <em>'Leyendo PDF...'</em> ➔ <em>'Consultando Grafo...'</em> ➔ <em>'Elaborando Respuesta...'</em>.",
+        diff_6_badge: "Compliance Corporativo",
+        diff_6_title: "Matriz Regulatoria y Glosario De ➔ Para",
+        diff_6_desc: "Módulo administrativo especializado en jurisdicciones y entidades reguladoras por país (SUSEP en Brasil, DGSFP en España, etc.). El sistema opera con tesauro semántico corporativo y equivalencias conceptuales, asegurando que términos como 'póliza', 'siniestro', 'prima' y 'liquidación' sigan rigurosamente las normas de cada mercado.",
+        diff_6_pill: "🏛️ <strong>Control de jurisdicción activa:</strong> Adaptación instantánea de las reglas a las normativas vigentes.",
+
+        screens_tag: "Recorrido Visual del Producto",
+        screens_title: "Galería de Pantallas de la Aplicación Desktop",
+        screens_subtitle: "Descubre cada detalle de la experiencia de uso real de AXET-NeuralGraph 3D en ejecución, desde la navegación tridimensional en el encéfalo hasta la gobernanza regulatoria.",
+        click_expand: "🔍 Clic para Expandir",
+        screen_1_badge: "Módulo 01 • Visualización Espacial 3D",
+        screen_1_title: "Grafo Neural Tridimensional y Lóbulos Corticales",
+        screen_1_desc: "Representación visual interactiva de la memoria técnica de la organización. El modelo 3D encapsula documentos en una malla anatómica vítrea. En la imagen se destaca el <strong>Lóbulo Temporal Izquierdo</strong> (36% del grafo, responsable de la memoria declarativa de pólizas y reglas de negocio de Reef.core).",
+        screen_1_cap: "Grafo Neural 3D Anatómico: 3.111 nodos y 9.472 sinapsis distribuidos en los lóbulos cerebrales en Three.js",
+        spec_k1_1: "Estadísticas del Grafo", spec_v1_1: "3.111 Nodos • 9.472 Sinapsis",
+        spec_k1_2: "Motor Gráfico", spec_v1_2: "Three.js WebGL + GLTFLoader",
+        spec_k1_3: "Lóbulos Mapeados", spec_v1_3: "Frontal, Parietal, Temporal, Occipital",
+        spec_k1_4: "Control de Cámara", spec_v1_4: "Orbital 360° + Zoom Sináptico",
+
+        screen_2_badge: "Módulo 02 • Trazabilidad Epistémica",
+        screen_2_title: "Inspección Detallada de Nodos y Rol Cognitivo",
+        screen_2_desc: "Al seleccionar cualquier nodo en el universo 3D, el asistente abre el panel de auditoría del documento. Es posible examinar la procedencia exacta en el acervo técnico (Reef Academy), la autoridad conceptual, la fecha de ingesta y todas las aristas sinápticas que conectan esa especificación con otros subsistemas.",
+        screen_2_cap: "Inspección de Nodo Semántico: Metadatos, autoridad documental de Reef Academy y conexiones sinápticas",
+        spec_k2_1: "Ejemplo Seleccionado", spec_v2_1: "Definición de Ramo Salud (Reef.core)",
+        spec_k2_2: "Origen Documental", spec_v2_2: "Reef Academy / Ingesta MD",
+        spec_k2_3: "Relación Sináptica", spec_v2_3: "Complementa (7.590) • Sustituye (41)",
+        spec_k2_4: "Rol Cognitivo", spec_v2_4: "Definición Arquitectónica Canónica",
+
+        screen_3_badge: "Módulo 03 • Memoria a Largo Plazo",
+        screen_3_title: "Asistente Cognitivo Integrado al Universo Neural",
+        screen_3_desc: "El asistente mantiene memoria persistente de conversaciones anteriores incluso tras reinicios. Al navegar en el universo 3D, la tarjeta inteligente recapitula las últimas interacciones del colaborador (<em>'¡Buenas tardes, Gustavo! Recordé que estábamos hablando sobre procedimientos operativos...'</em>), permitiendo la continuidad fluida del trabajo.",
+        screen_3_cap: "Asistente Contextual Inmersivo: Continuación de chats anteriores integrada al universo neural",
+        spec_k3_1: "Persistencia", spec_v3_1: "PostgreSQL 16 Relacional",
+        spec_k3_2: "Sesiones Activas", spec_v3_2: "Historial Completo Indexado",
+        spec_k3_3: "Continuación", spec_v3_3: "1 Clic para Reanudar Chat",
+        spec_k3_4: "Interacción", spec_v3_4: "HUD Flotante No Bloqueante",
+
+        screen_4_badge: "Módulo 04 • Motor de Razonamiento RAG",
+        screen_4_title: "Chat con Streaming SSE y Telemetría Dinámica",
+        screen_4_desc: "Durante el envío de preguntas técnicas complejas (ej: <em>'¿Cómo está estructurada la integración técnica y el flujo de liquidaciones en Reef.core?'</em>), el globo de respuesta comunica de forma transparente cada fase del flujo cognitivo vía Server-Sent Events, garantizando exactitud milimétrica y ausencia de alucinaciones.",
+        screen_4_cap: "Chat Interactivo y Telemetría en Tiempo Real: Respuesta técnica sobre integraciones de Reef.core",
+        spec_k4_1: "Protocolo de Comunicación", spec_v4_1: "Server-Sent Events (SSE) Asíncrono",
+        spec_k4_2: "Motor Vectorial", spec_v4_2: "Qdrant HNSW Cosine Index",
+        spec_k4_3: "Modelo de Embeddings", spec_v4_3: "BAAI/bge-m3 Local (Dense + Sparse)",
+        spec_k4_4: "Indicador de Estado", spec_v4_4: "Leyendo ➔ Buscando ➔ Razonando",
+
+        screen_5_badge: "Módulo 05 • Experiencia de Usuario",
+        screen_5_title: "Dashboard Inicial, Okta SSO y Preguntas Sugeridas",
+        screen_5_desc: "La pantalla principal recibe al usuario corporativo con su perfil autenticado vía Okta SSO (OneNTT). El asistente evalúa la base vectorial cargada y genera preguntas sugeridas dinámicas de acuerdo con el contexto indexado, facilitando el onboarding de nuevos ingenieros y analistas.",
+        screen_5_cap: "Dashboard Inicial y Sugerencias Inteligentes con Perfil Conectado vía Okta SSO",
+        spec_k5_1: "Autenticación", spec_v5_1: "Okta Device Flow (OneNTT) + JWT",
+        spec_k5_2: "Sugerencias Contextuales", spec_v5_2: "Basadas en el Acervo Indexado",
+        spec_k5_3: "Búsqueda en Historial", spec_v5_3: "Filtro Rápido por Palabras Clave",
+        spec_k5_4: "Accesos Directos", spec_v5_4: "Sincronizar Base, Grafo 3D, Admin",
+
+        screen_6_badge: "Módulo 06 • Gobernanza y Regulación",
+        screen_6_title: "Panel Administrativo y Matriz Regulatoria De ➔ Para",
+        screen_6_desc: "Área de control del Master Admin. Permite fijar la jurisdicción activa de operación, mapear los organismos reguladores oficiales (ej: SUSEP, DGSFP), configurar equivalencias De ➔ Para entre terminologías de seguros y administrar el ciclo de snapshots criptográficos (.qpack).",
+        screen_6_cap: "Panel Administrativo: Legislación por país y tesauro conceptual De ➔ Para",
+        spec_k6_1: "Jurisdicción", spec_v6_1: "Multipaís (España, Brasil, etc.)",
+        spec_k6_2: "Tesauro De ➔ Para", spec_v6_2: "Equivalencias Semánticas Estrictas",
+        spec_k6_3: "Gestión de Snapshots", spec_v6_3: "Exportación y Firma SHA-256",
+        spec_k6_4: "Curaduría de Sinapsis", spec_v6_4: "Aprobación de Aprendizajes Cognitivos",
+
+        arch_tag: "Ingeniería de Software",
+        arch_title: "Arquitectura Técnica en 4 Capas",
+        arch_subtitle: "Construido sobre el estado del arte del desarrollo moderno de software con Rust, WebGL, Python asíncrono y bases de datos vectoriales de última generación.",
+        layer_1_tag: "Capa 01", layer_1_title: "Shell Desktop (Nativo)",
+        layer_1_desc: "Ejecutable nativo en Rust vía Tauri v2. Consumo < 100MB RAM, integración con diálogos nativos del SO (selector de carpetas OneDrive), atajos de teclado y ciclo de vida optimizado.",
+        layer_2_tag: "Capa 02", layer_2_title: "Frontend Reactivo & 3D",
+        layer_2_desc: "Single-Page Application con Next.js 14 y Three.js para renderizado fluido de la malla encefálica holográfica a 60 FPS, diseñada con el Design System corporativo de NTT DATA.",
+        layer_3_tag: "Capa 03", layer_3_title: "Backend API & Cognitivo",
+        layer_3_desc: "Microservicio de alta concurrencia en FastAPI (Python 3.11). Enrutamiento asíncrono, SSE para streaming de respuestas, telemetría en tiempo real y orquestación RAG.",
+        layer_4_tag: "Capa 04", layer_4_title: "Bases de Datos & Multimodal",
+        layer_4_desc: "Almacenamiento híbrido: Qdrant Vector DB para búsqueda semántica aproximada por coseno, PostgreSQL 16 para entidades/grafos y Faster-Whisper para transcripción offline.",
+
+        chart_ram_title: "Consumo Medio de Memoria RAM (MB)",
+        chart_ram_sub: "Comparativo entre arquitecturas de asistentes desktop corporativos",
+        chart_lobes_title: "Distribución Anatómica de Conocimiento",
+        chart_lobes_sub: "Mapeo de 3.111 nodos documentales por lóbulos encefálicos",
+        chart_ram_labels: ['AXET Desktop (Tauri)', 'Desktop Tradicional (Electron)', 'Navegador Web (Chrome/Edge)', 'Solución Nube Monolítica'],
+        chart_lobes_labels: ['Lóbulo Temporal (Pólizas & Memoria)', 'Lóbulo Parietal (Integración & APIs)', 'Lóbulo Frontal (Reglas & Decisión)', 'Lóbulo Occipital (Multimodal & OCR)', 'Cerebelo & Tronco (Sustentación & Scripts)'],
+
+        sec_tag: "Distribución Cifrada",
+        sec_title: "Cómo Funciona la Entrega Segura de Conocimiento",
+        sec_subtitle: "El modelo de paquetes precomputados (.qpack) elimina el riesgo de fuga de datos, descarga de trabajo a las estaciones clientes y garantiza integridad auditable.",
+        step_1_t: "Ingesta por el Admin", step_1_d: "El Master Admin indexa la documentación canónica (manuales de Reef.core, normas y arquitecturas) en su entorno local seguro.",
+        step_2_t: "Empaquetado .qpack", step_2_d: "El sistema extrae el snapshot atómico de Qdrant + metadatos de Postgres, comprime la base (reducción de hasta 85%) y firma con hash SHA-256.",
+        step_3_t: "Distribución Segura", step_3_d: "El archivo .qpack se almacena en el SharePoint o Teams interno de NTT DATA. Ningún código fuente ni texto plano se transmite.",
+        step_4_t: "Restauración en 1 Clic", step_4_d: "El usuario arrastra el archivo al panel de la app. El sistema valida el SHA-256 y restaura la base vectorial completa en menos de 15 segundos.",
+
+        faq_tag: "Dudas Técnicas & Gobernanza",
+        faq_title: "Preguntas Frecuentes (FAQ)",
+        faq_subtitle: "Aclaraciones esenciales para líderes de TI, arquitectos corporativos y equipos de ciberseguridad (CISO).",
+        faq_q1: "1. ¿Los datos de mi organización o las conversaciones de los colaboradores salen del equipo?",
+        faq_a1: "<strong>No.</strong> La aplicación se ejecuta con enlaces estrictamente aislados en 127.0.0.1 (localhost). Todo el procesamiento de búsqueda vectorial en Qdrant, persistencia relacional en PostgreSQL y navegación 3D ocurre exclusivamente en el hardware del colaborador. El único tráfico opcional es la consulta a APIs corporativas de IA vía proxy aXet con autenticación Okta Bearer.",
+        faq_q2: "2. ¿Qué ocurre si un usuario adjunta un PDF confidencial o imagen en el chat? ¿Se contamina el grafo?",
+        faq_a2: "<strong>No.</strong> El sistema implementa el mecanismo patentado de <strong>Blindaje Epistémico (Epistemic Sandboxing)</strong>. Los archivos e imágenes adjuntos se procesan exclusivamente en la memoria volátil de esa sesión. El disparador de auto-rectificación se desactiva estrictamente ante la presencia de adjuntos, impidiendo que datos no auditados se conviertan en nodos permanentes o integren paquetes federados (.pack).",
+        faq_q3: "3. ¿Cómo opera la Neuroplasticidad Sintética en la práctica?",
+        faq_a3: "Cuando el modelo identifica una contradicción o error en su razonamiento preliminar, emite un bloque de aprendizaje neural. El backend crea inmediatamente un nodo APRENDIZADO_COGNITIVO en PostgreSQL con una arista RETIFICA_CONCEITO de alto voltaje (peso 2.5+) y actualiza Qdrant. En futuras consultas, esta regla canónica se inyecta en la cúspide del prompt RAG, sobreescribiendo documentos obsoletos.",
+        faq_q4: "4. ¿Los usuarios finales necesitan licencia o permisos de commit en GitHub para reportar aprendizajes?",
+        faq_a4: "<strong>Cero permisos.</strong> El modelo federado del Escenario 1 utiliza una bandeja de salida local que envía sinapsis anónimas a la API de GitHub Issues con etiqueta cognitive-learning. Los colaboradores no requieren cuenta de GitHub ni permisos de escritura. La curaduría corre a cargo del Master Admin en el panel web, quien compila la versión pública y la distribuye vía Releases en menos de 2 segundos.",
+        faq_q5: "5. ¿Cuál es el consumo de hardware de la aplicación en los equipos de los colaboradores?",
+        faq_a5: "Gracias al runtime nativo de <strong>Tauri v2 compilado en Rust</strong>, el shell de escritorio consume típicamente <strong>entre 80MB y 120MB de memoria RAM</strong>, funcionando con total fluidez incluso en portátiles corporativos estándar. El motor gráfico Three.js utiliza aceleración directa por hardware (WebGL).",
+        faq_q6: "6. ¿Cómo se integra AXET-NeuralGraph con sistemas legados y autenticación corporativa?",
+        faq_a6: "La plataforma incluye integración nativa con <strong>Okta SSO corporativo (OneNTT Device Flow)</strong>, además de compatibilidad con modelos locales y remotos vía aXet Gateway. El pipeline de ingesta admite archivos Markdown, Word, presentaciones PowerPoint con notas del orador, PDFs técnicos y transcripción de videos operativos vía Faster-Whisper y FFmpeg.",
+
+        tray_btn_text: "🧠 Visión Ejecutiva",
+        tray_header_tag: "NTT DATA • Sumario de Producto",
+        tray_header_title: "AXET-NeuralGraph 3D — Visión Ejecutiva para Liderazgos",
+        tray_p1_t: "1. El Posicionamiento Estratégico",
+        tray_p1_d: "AXET-NeuralGraph 3D es la respuesta definitiva para organizaciones con propiedad intelectual altamente confidencial que necesitan acelerar el onboarding de ingeniería, clarificar arquitecturas legadas (como Reef.core) y asegurar conformidad regulatoria sin riesgo de fuga de datos corporativos.",
+        tray_p2_t: "2. Innovación Arquitectónica Local-First",
+        tray_p2_d: "Al unir Tauri v2 en Rust con un pipeline de snapshots vectoriales comprimidos (.qpack), la solución entrega respuestas en milisegundos sin costos recurrentes de tokens de embedding para las estaciones de los colaboradores, con pleno cumplimiento de GDPR y normativas de privacidad.",
+        tray_p3_t: "3. Autonomía Cognitiva y Federación",
+        tray_p3_d: "Por primera vez en un producto de IA corporativa, el asistente es capaz de auto-rectificar su propio razonamiento en tiempo real, mutar el grafo neural y sincronizar este conocimiento con toda la organización vía GitHub Releases en menos de 2 segundos, bajo gobernanza del Master Admin.",
+
+        footer_brand_desc: "Ecosistema de Inteligencia Artificial Local-First para grandes corporaciones, aseguradoras y utilities. Grafo neural tridimensional, RAG de alta fidelidad y blindaje epistémico.",
+        footer_col1_title: "Diferenciales",
+        footer_l1: "Grafo Neural 3D Anatómico",
+        footer_l2: "Neuroplasticidad Sintética",
+        footer_l3: "Federación Sin Permisos",
+        footer_l4: "Blindaje Epistémico",
+        footer_col2_title: "Ingeniería",
+        footer_l5: "Distribución .qpack",
+        footer_col3_title: "Gobernanza",
+        footer_l6: "Matriz Regulatoria De ➔ Para",
+        footer_l7: "Criptografía SHA-256",
+        footer_l8: "Conformidad LGPD/GDPR",
+        footer_l9: "Aclaraciones al CISO",
+        footer_rights: "Todos los derechos reservados. Material de uso ejecutivo y técnico confidencial."
+      },
+
+      en: {
+        page_title: "NTT DATA | AXET-NeuralGraph 3D — Enterprise Desktop Cognitive Platform & 3D Neural Graph",
+        nav_overview: "Overview",
+        nav_why: "Why Desktop",
+        nav_diff: "Differentiators",
+        nav_screens: "Screens",
+        nav_arch: "Architecture",
+        nav_security: "Security & .qpack",
+        nav_faq: "FAQ",
+        hero_badge: "⚡ Native Desktop (macOS & Windows) • Air-Gapped Ready",
+        hero_title_highlight: "Cognitive Intelligence with 3D Neural Graph",
+        hero_subtitle: "NTT DATA's enterprise desktop platform engineered for ultra-fast indexing of massive technical archives, core insurance platforms (Reef.core), and regulatory frameworks — driven by the mission at <strong>MAPFRE</strong> with <strong>1,000+ video hours (screen recordings & speech transcription)</strong> and <strong>2,000+ technical and functional documents</strong>. Strict <strong>100% Local-First</strong> architecture with complete data loss prevention, real-time <strong>synthetic neuroplasticity</strong>, and immersive 3D neuroanatomical visualization.",
+        btn_explore_diff: "🚀 Explore the 6 Differentiators",
+        btn_showcase: "🖼️ View Screen Showcase",
+        stat_nodes: "Semantic Nodes",
+        stat_synapses: "3D Synapses",
+                stat_videos_val: "+1,000 h",
+        stat_videos: "Indexed Videos (Screens & Transcription)",
+        stat_docs_val: "+2,000",
+        stat_docs: "Technical & Functional Documents",
+        stat_nodes: "Semantic 3D Nodes",
+        stat_synapses: "Mapped 3D Synapses",
+        
+        mapfre_tag: "🎯 REAL CASE • MAPFRE ORIGIN & MOTIVATION",
+        mapfre_title: "The Founding Mission: <span>Ultra-Fast Indexing for MAPFRE</span>",
+        mapfre_lead: "The genesis of AXET-NeuralGraph 3D was driven by a critical demand at <strong>MAPFRE</strong>: ingest and index at lightning speed a massive enterprise archive of <strong>over 1,000+ hours of video</strong> (capturing operational legacy insurance system screens and continuous voice transcription) alongside <strong>over 2,000+ technical and functional engineering documents</strong> (Reef.core). Conventional cloud options were sluggish, costly, and insecure; this native desktop architecture was engineered for maximum speed and absolute local sovereignty.",
+        mapfre_col1_t: "1. The Massive Archive Challenge",
+        mapfre_col1_d: "Mapfre possessed hundreds of gigabytes in training sessions, operational screen recordings of underwriting and claims workflows, and thousands of core engineering specs. Uploading this volume to commercial clouds would take weeks of bandwidth and thousands of dollars in recurring token fees.",
+        mapfre_col2_t: "2. The Motivation: Extreme Speed & Local-First",
+        mapfre_col2_d: "The requirement was uncompromising: an ultra-high-speed indexing engine capable of analyzing video frames (visual OCR) and audio tracks (local Whisper) directly on the local machine, eliminating corporate data leaks and shrinking time-to-knowledge from days to minutes.",
+        mapfre_col3_t: "3. The Result: 3D Graph & .qpack",
+        mapfre_col3_d: "The entire corpus was structured into a 3D anatomical neural graph of 3,111 nodes and 9,472 synapses. Through .qpack compression, Mapfre development and business teams now pinpoint any system screen or policy rule in under 2 seconds, entirely offline.",
+        mapfre_kpi1_num: "+1,000 h",
+        mapfre_kpi1_txt: "Training Videos & Operational Screens Indexed",
+        mapfre_kpi2_num: "+2,000",
+        mapfre_kpi2_txt: "Technical & Functional Reef.core Documents",
+        mapfre_kpi3_num: "100% Local",
+        mapfre_kpi3_txt: "Local Whisper int8 + OCR with Zero Cloud Leakage",
+        mapfre_kpi4_num: "< 2 sec",
+        mapfre_kpi4_txt: "Instant Query Response in 3D Neural Graph",
+        tray_p4_t: "4. MAPFRE Case: Validation at Extreme Scale",
+        tray_p4_d: "The founding motivation was the ultra-fast ingestion of Mapfre's enterprise corpus: 1,000+ hours of video (legacy insurance system screens and voice transcription via Whisper) and 2,000+ technical Reef.core documents. The solution proved total operational viability, reducing cloud costs to zero while providing impenetrable enterprise data security.",
+        stat_localhost: "Localhost / Air-Gapped",
+        stat_federation: "Synapse Federation",
+        hero_zoom_hint: "🔍 Click on the window to enlarge the anatomical 3D Neural Graph in high resolution.",
+        lightbox_hero: "Anatomical 3D Neural Graph: 3,111 nodes and 9,472 synapses distributed across brain lobes in Three.js (brain.glb)",
+        
+        why_tag: "Local-First Engineering",
+        why_title: "Why Did We Build A Native Desktop Application?",
+        why_subtitle: "Corporations with trade secrets, strict regulatory frameworks (SUSEP/DGSFP), and mission-critical codebases cannot rely on generic web chatbots on shared clouds.",
+        pain_title: "The Risks of Traditional Web Solutions",
+        pain_1_t: "Source Code & Intellectual Property Leakage:",
+        pain_1_d: "Uploading corporate files to public clouds exposes trade secrets to data breaches and involuntary LLM training.",
+        pain_2_t: "High Recurring Embedding Costs per User:",
+        pain_2_d: "Every employee generating vectors on cloud endpoints consumes thousands of dollars in recurring token fees.",
+        pain_3_t: "Out-of-Domain Hallucinations:",
+        pain_3_d: "Web models blend proprietary corporate rules with internet assumptions without strict canonical grounding.",
+        pain_4_t: "Rigid and Static Memory:",
+        pain_4_d: "If the model misinterprets a policy, the error persists indefinitely until complex manual retraining occurs.",
+        
+        gain_title: "The AXET-NeuralGraph Desktop Advantage",
+        gain_1_t: "Strict Local Isolation (127.0.0.1):",
+        gain_1_d: "Zero sensitive data traffic over the internet. Queries, synapses, and chat history remain 100% shielded on the machine.",
+        gain_2_t: "Zero Token Cost on Client Machines:",
+        gain_2_d: "Users import pre-indexed compressed bundles (.qpack) in seconds, requiring no GPU or embedding tokens.",
+        gain_3_t: "Extreme Performance with Tauri v2 (Rust):",
+        gain_3_d: "The native binary consumes under 100MB of RAM (compared to gigabytes taken by heavy browsers or Electron).",
+        gain_4_t: "Real-Time Synthetic Neuroplasticity:",
+        gain_4_d: "The assistant detects inconsistencies in its own reasoning and immediately mutates the graph with new canonical rules.",
+
+        diff_tag: "Disruptive Differentiators",
+        diff_title: "The 6 Technological Pillars of the System",
+        diff_subtitle: "An unprecedented architecture conceived by NTT DATA to transform massive volumes of unstructured documentation into living, secure, and navigable knowledge.",
+        diff_1_badge: "3D Neuroanatomy",
+        diff_1_title: "3D Neural Graph with Anatomical Brain Shell",
+        diff_1_desc: "WebGL rendering (Three.js) wrapped by a vitreous holographic mesh of a human brain (brain.glb). Documents are spatially distributed by cognitive function: Temporal Lobe (policies & semantic memory), Frontal (executive rules), Parietal (technical integration), and Occipital (multimodality).",
+        diff_1_pill: "⚡ <strong>3,111 nodes and 9,472 synapses</strong> with 360° inspection, tension filter, and document provenance tracking.",
+        diff_2_badge: "Dynamic Cognition",
+        diff_2_title: "Synthetic Neuroplasticity & Autonomous Self-Correction",
+        diff_2_desc: "During conversations, if the AI detects a reasoning flaw, it emits an autonomous self-correction. The system dynamically mutates the graph, creating an APRENDIZADO_COGNITIVO node and a RETIFICA_CONCEITO edge (weight 2.5+), prioritizing this rule at the absolute top of future queries.",
+        diff_2_pill: "💡 <strong>Interactive visual card</strong> in the chat bubble: <em>'Learning Occurred • New Synapse in Neural Graph'</em>.",
+        diff_3_badge: "Zero-Permission Governance",
+        diff_3_title: "Dual Git Federation with Zero Permission Overhead",
+        diff_3_desc: "Local synapses are transmitted via an outbox to GitHub Issues (label cognitive-learning) without requiring user accounts or commit permissions. The Master Admin approves and compiles global bundles (.pack) distributed to all endpoints in < 2 seconds.",
+        diff_3_pill: "🔒 <strong>Zero privileges required for end users</strong> with centralized formal curation via the admin panel.",
+        diff_4_badge: "Maximum Security",
+        diff_4_title: "Strict Local-First RAG & Epistemic Sandboxing",
+        diff_4_desc: "The entire stack operates with strict localhost bindings on 127.0.0.1. Collaborators never receive raw markdown files, only pre-indexed vector packages (.qpack) with SHA-256 cryptographic verification. Epistemic Sandboxing ensures chat attachments are volatile, strictly prohibiting permanent graph poisoning.",
+        diff_4_pill: "🛑 <strong>Data Poisoning Prevention:</strong> Non-audited files never become permanent knowledge nodes.",
+        diff_5_badge: "Real Multimodality",
+        diff_5_title: "Multimodal Chat with Real-Time Dynamic Telemetry (SSE)",
+        diff_5_desc: "In-session parsing of enterprise documents (multipage PDFs with character counts, PowerPoint decks with speaker notes, and Word docs) and up to 3 images with smart Pillow downsampling (1080p). Instead of static '3 dots', the response bubble shows live progress steps.",
+        diff_5_pill: "📊 <strong>Transparent telemetry:</strong> <em>'Reading PDF...'</em> ➔ <em>'Querying Graph...'</em> ➔ <em>'Drafting Answer...'</em>.",
+        diff_6_badge: "Enterprise Compliance",
+        diff_6_title: "Regulatory Matrix & 'From ➔ To' Conceptual Glossary",
+        diff_6_desc: "Administrative module specialized in jurisdiction management and regulatory authorities (SUSEP in Brazil, DGSFP in Spain, etc.). Features a corporate semantic thesaurus and conceptual equivalence mapper ensuring insurance terms conform strictly to local market standards.",
+        diff_6_pill: "🏛️ <strong>Active jurisdiction governance:</strong> Instant adaptation of business validation rules to active laws.",
+
+        screens_tag: "Visual Product Tour",
+        screens_title: "Desktop Application Screen Gallery",
+        screens_subtitle: "Explore every detail of the real user experience of AXET-NeuralGraph 3D in action, from 3D brain navigation to regulatory governance.",
+        click_expand: "🔍 Click to Enlarge",
+        screen_1_badge: "Module 01 • 3D Spatial Visualization",
+        screen_1_title: "Three-Dimensional Neural Graph and Cortical Lobes",
+        screen_1_desc: "Interactive visual representation of enterprise technical memory. The 3D model encapsulates documents within a vitreous anatomical brain mesh. Highlighted: <strong>Left Temporal Lobe</strong> (36% of graph, managing declarative memory for Reef.core insurance policies and business rules).",
+        screen_1_cap: "Anatomical 3D Neural Graph: 3,111 nodes and 9,472 synapses distributed across brain lobes in Three.js",
+        spec_k1_1: "Graph Statistics", spec_v1_1: "3,111 Nodes • 9,472 Synapses",
+        spec_k1_2: "Graphics Engine", spec_v1_2: "Three.js WebGL + GLTFLoader",
+        spec_k1_3: "Mapped Lobes", spec_v1_3: "Frontal, Parietal, Temporal, Occipital",
+        spec_k1_4: "Camera Control", spec_v1_4: "360° Orbit + Synaptic Zoom",
+
+        screen_2_badge: "Module 02 • Epistemic Traceability",
+        screen_2_title: "Deep Node Inspection & Cognitive Roles",
+        screen_2_desc: "Clicking any node in the 3D space opens the document audit panel. Inspect exact technical repository provenance (Reef Academy), conceptual authority, ingestion timestamps, and synaptic edges connecting specifications across subsystems.",
+        screen_2_cap: "Semantic Node Inspection: Metadata, Reef Academy document authority, and synaptic connections",
+        spec_k2_1: "Selected Example", spec_v2_1: "Health Insurance Branch Setup (Reef.core)",
+        spec_k2_2: "Document Provenance", spec_v2_2: "Reef Academy / Ingested MD",
+        spec_k2_3: "Synaptic Relations", spec_v2_3: "Complements (7,590) • Replaces (41)",
+        spec_k2_4: "Cognitive Role", spec_v2_4: "Canonical Architectural Specification",
+
+        screen_3_badge: "Module 03 • Long-Term Memory",
+        screen_3_title: "Contextual Assistant Integrated with Neural Space",
+        screen_3_desc: "The assistant maintains persistent conversation memory across restarts. When exploring the 3D space, the smart card recaps previous collaborative chats (<em>'Good afternoon, Gustavo! Recalling our discussion on operational procedures...'</em>), enabling immediate workflow resumption.",
+        screen_3_cap: "Contextual Assistant: Resuming previous chats seamlessly inside the 3D neural environment",
+        spec_k3_1: "Persistence", spec_v3_1: "PostgreSQL 16 Relational",
+        spec_k3_2: "Active Sessions", spec_v3_2: "Fully Indexed Chat History",
+        spec_k3_3: "Resumption", spec_v3_3: "1-Click to Continue Conversation",
+        spec_k3_4: "Interaction", spec_v3_4: "Non-Blocking Floating HUD",
+
+        screen_4_badge: "Module 04 • RAG Reasoning Engine",
+        screen_4_title: "Interactive Chat with SSE Streaming & Live Telemetry",
+        screen_4_desc: "When asking complex technical queries (e.g. <em>'How is technical integration and the settlement pipeline structured in Reef.core?'</em>), the response card communicates each cognitive step via Server-Sent Events, ensuring millimeter precision and zero hallucinations.",
+        screen_4_cap: "Interactive Chat & Live Telemetry: Technical response regarding Reef.core integration pipelines",
+        spec_k4_1: "Communication Protocol", spec_v4_1: "Async Server-Sent Events (SSE)",
+        spec_k4_2: "Vector Engine", spec_v4_2: "Qdrant HNSW Cosine Index",
+        spec_k4_3: "Embedding Model", spec_v4_3: "Local BAAI/bge-m3 (Dense + Sparse)",
+        spec_k4_4: "Status Telemetry", spec_v4_4: "Reading ➔ Querying ➔ Reasoning",
+
+        screen_5_badge: "Module 05 • User Experience",
+        screen_5_title: "Home Dashboard, Okta SSO & Suggested Queries",
+        screen_5_desc: "The home screen greets corporate users with authenticated profiles via Okta SSO (OneNTT). The engine evaluates the loaded vector base and generates smart contextual query suggestions, accelerating onboarding for new engineers and analysts.",
+        screen_5_cap: "Home Dashboard and Smart Context Suggestions with Okta SSO Authenticated Profile",
+        spec_k5_1: "Authentication", spec_v5_1: "Okta Device Flow (OneNTT) + JWT",
+        spec_k5_2: "Context Suggestions", spec_v5_2: "Derived from Active Indexed Base",
+        spec_k5_3: "History Search", spec_v5_3: "Rapid Keyword-Based Filter",
+        spec_k5_4: "Top Shortcuts", spec_v5_4: "Sync Base, 3D Graph, Admin",
+
+        screen_6_badge: "Module 06 • Governance & Compliance",
+        screen_6_title: "Admin Panel & 'From ➔ To' Regulatory Matrix",
+        screen_6_desc: "Master Admin control center. Configure active operational jurisdictions, map official regulators (e.g. SUSEP, DGSFP), define conceptual 'From ➔ To' equivalence rules for insurance terminology, and govern cryptographic snapshot packages (.qpack).",
+        screen_6_cap: "Admin Panel: Multi-country legislation mapper and 'From ➔ To' semantic thesaurus",
+        spec_k6_1: "Jurisdiction", spec_v6_1: "Multi-Country (Spain, Brazil, etc.)",
+        spec_k6_2: "From ➔ To Thesaurus", spec_v6_2: "Strict Semantic Equivalences",
+        spec_k6_3: "Snapshot Operations", spec_v6_3: "SHA-256 Signed Export & Verification",
+        spec_k6_4: "Synapse Curation", spec_v6_4: "Cognitive Learning Approval Workflow",
+
+        arch_tag: "Software Engineering",
+        arch_title: "4-Layer Technical Architecture",
+        arch_subtitle: "Engineered on modern software state-of-the-art with Rust, WebGL, asynchronous Python, and next-generation vector databases.",
+        layer_1_tag: "Layer 01", layer_1_title: "Native Desktop Shell",
+        layer_1_desc: "Compiled native Rust binary via Tauri v2. Memory footprint < 100MB RAM, native OS file picker integration (OneDrive/SharePoint folders), global shortcuts, and optimized lifecycle.",
+        layer_2_tag: "Layer 02", layer_2_title: "Reactive & 3D Frontend",
+        layer_2_desc: "Next.js 14 Single-Page Application and Three.js for 60 FPS rendering of the anatomical holographic brain mesh, styled with NTT DATA's corporate Design System.",
+        layer_3_tag: "Layer 03", layer_3_title: "Cognitive API Backend",
+        layer_3_desc: "High-concurrency FastAPI microservice (Python 3.11). Asynchronous routing, Server-Sent Events for cognitive answer streaming, real-time telemetry, and RAG orchestration.",
+        layer_4_tag: "Layer 04", layer_4_title: "Databases & Multimodal",
+        layer_4_desc: "Hybrid data tier: Qdrant Vector DB for approximate cosine semantic search, PostgreSQL 16 for knowledge entities and graphs, plus Faster-Whisper for offline transcription.",
+
+        chart_ram_title: "Average RAM Memory Footprint (MB)",
+        chart_ram_sub: "Comparison across enterprise desktop assistant architectures",
+        chart_lobes_title: "Anatomical Knowledge Distribution",
+        chart_lobes_sub: "Mapping 3,111 document nodes across brain cortical lobes",
+        chart_ram_labels: ['AXET Desktop (Tauri)', 'Traditional Desktop (Electron)', 'Web Browser (Chrome/Edge)', 'Monolithic Cloud Stack'],
+        chart_lobes_labels: ['Temporal Lobe (Policies & Memory)', 'Parietal Lobe (Integration & APIs)', 'Frontal Lobe (Rules & Decision)', 'Occipital Lobe (Multimodal & OCR)', 'Cerebellum & Stem (Maintenance & Scripts)'],
+
+        sec_tag: "Encrypted Distribution",
+        sec_title: "How Secure Knowledge Delivery Works",
+        sec_subtitle: "The pre-computed package model (.qpack) eliminates data leakage risks, offloads heavy computation from client workstations, and ensures verifiable audit integrity.",
+        step_1_t: "Admin Ingestion", step_1_d: "Master Admin indexes canonical technical documentation (Reef.core manuals, standards, architectures) in a secure local environment.",
+        step_2_t: ".qpack Packaging", step_2_d: "The engine extracts an atomic snapshot from Qdrant + Postgres metadata, compresses data (up to 85% reduction), and signs with SHA-256.",
+        step_3_t: "Secure Sharing", step_3_d: "The .qpack file is placed on corporate SharePoint or Microsoft Teams. Zero source code or plaintext markdown is transmitted.",
+        step_4_t: "1-Click Restoration", step_4_d: "Collaborator drags the package into the app. The system validates SHA-256 and restores the entire vector base in under 15 seconds.",
+
+        faq_tag: "Technical & Governance Inquiries",
+        faq_title: "Frequently Asked Questions (FAQ)",
+        faq_subtitle: "Essential clarifications for IT leaders, enterprise architects, and cybersecurity teams (CISO).",
+        faq_q1: "1. Do my organization's data or employee conversations leave the workstation?",
+        faq_a1: "<strong>No.</strong> The application runs with strict localhost bindings on 127.0.0.1. All vector retrieval in Qdrant, relational persistence in PostgreSQL, and 3D navigation take place entirely on local hardware. The only optional outbound traffic is calling enterprise AI endpoints via the aXet Gateway proxy with Okta Bearer authentication.",
+        faq_q2: "2. What happens if a user attaches a confidential PDF or image in chat? Does the graph get contaminated?",
+        faq_a2: "<strong>No.</strong> The system implements patented <strong>Epistemic Sandboxing</strong>. Uploaded files and images are parsed exclusively in volatile memory for that specific session. The self-correction trigger is strictly deactivated when attachments are present, permanently preventing unverified data from becoming permanent knowledge nodes or entering federated packages (.pack).",
+        faq_q3: "3. How does Synthetic Neuroplasticity work in practice?",
+        faq_a3: "When the model detects an internal reasoning contradiction, it produces a neural learning block. The backend immediately creates an APRENDIZADO_COGNITIVO node in PostgreSQL with a high-voltage RETIFICA_CONCEITO edge (weight 2.5+) and updates Qdrant. Subsequent questions automatically position this canonical rule at the top of the RAG context.",
+        faq_q4: "4. Do end users require GitHub licenses or commit permissions to contribute learnings?",
+        faq_a4: "<strong>Zero permissions.</strong> The Scenario 1 federated model utilizes a local outbox dispatching anonymous learning payloads to GitHub Issues tagged cognitive-learning. Collaborators need no GitHub accounts or write privileges. Curation is performed by the Master Admin on the web portal, who compiles and distributes updates via Releases in under 2 seconds.",
+        faq_q5: "5. What are the client hardware requirements across employee laptops?",
+        faq_a5: "Thanks to the native <strong>Tauri v2 Rust runtime</strong>, the desktop shell typically consumes <strong>between 80MB and 120MB of RAM</strong>, operating smoothly on standard enterprise workstations. The Three.js 3D engine leverages hardware GPU acceleration (WebGL).",
+        faq_q6: "6. How does AXET-NeuralGraph integrate with legacy infrastructure and corporate SSO?",
+        faq_a6: "The platform features native integration with <strong>Okta SSO (OneNTT Device Flow)</strong> and supports local/remote LLMs via the aXet Gateway. Ingestion handles Markdown, Word, PowerPoint (with speaker notes), technical PDFs, and operational video transcription via Faster-Whisper and FFmpeg.",
+
+        tray_btn_text: "🧠 Executive Vision",
+        tray_header_tag: "NTT DATA • Product Summary",
+        tray_header_title: "AXET-NeuralGraph 3D — Executive Briefing for Leadership",
+        tray_p1_t: "1. Strategic Positioning",
+        tray_p1_d: "AXET-NeuralGraph 3D is the definitive enterprise solution for organizations with highly confidential IP seeking to accelerate engineering onboarding, demystify legacy architectures (such as Reef.core), and ensure compliance without data leakage risks.",
+        tray_p2_t: "2. Local-First Architectural Innovation",
+        tray_p2_d: "By combining Tauri v2 in Rust with compressed vector snapshot packages (.qpack), the system delivers sub-second query latency with zero recurring embedding token costs on employee laptops, ensuring strict GDPR compliance.",
+        tray_p3_t: "3. Cognitive Autonomy & Rapid Federation",
+        tray_p3_d: "For the first time in enterprise AI, the assistant self-rectifies reasoning discrepancies in real time, mutates the neural graph, and synchronizes learnings across the enterprise via GitHub Releases in under 2 seconds, fully audited by the Master Admin.",
+
+        footer_brand_desc: "Local-First Enterprise AI Ecosystem for large corporations, insurance leaders, and utilities. 3D neural graph, high-fidelity RAG, and epistemic sandboxing.",
+        footer_col1_title: "Differentiators",
+        footer_l1: "Anatomical 3D Neural Graph",
+        footer_l2: "Synthetic Neuroplasticity",
+        footer_l3: "Zero-Permission Federation",
+        footer_l4: "Epistemic Sandboxing",
+        footer_col2_title: "Engineering",
+        footer_l5: ".qpack Distribution",
+        footer_col3_title: "Governance",
+        footer_l6: "'From ➔ To' Regulatory Matrix",
+        footer_l7: "SHA-256 Cryptography",
+        footer_l8: "GDPR / Privacy Compliance",
+        footer_l9: "CISO Briefing",
+        footer_rights: "All rights reserved. Confidential technical and executive material."
+      },
+
+      pt: {
+        page_title: "NTT DATA | AXET-NeuralGraph 3D — Plataforma Cognitiva Desktop & Grafo Neural Tridimensional",
+        nav_overview: "Visão Geral",
+        nav_why: "Por Que Desktop",
+        nav_diff: "Diferenciais",
+        nav_screens: "Telas do App",
+        nav_arch: "Arquitetura",
+        nav_security: "Segurança & .qpack",
+        nav_faq: "FAQ",
+        hero_badge: "⚡ Desktop Nativo (macOS & Windows) • Air-Gapped Ready",
+        hero_title_highlight: "Inteligência Cognitiva com Grafo Neural Tridimensional",
+        hero_subtitle: "A plataforma desktop da NTT DATA desenvolvida para indexar em altíssima velocidade acervos massivos de engenharia, sistemas core de seguros (Reef.core) e matrizes regulatórias — motivada pela missão na <strong>MAPFRE</strong> com <strong>+1.000 horas de vídeos (captura de telas e transcrição)</strong> e <strong>+2.000 documentos técnicos e funcionais</strong>. Arquitetura <strong>100% Local-First</strong> com isolamento estrito contra vazamento de dados, <strong>neuroplasticidade sintética</strong> em tempo real e visualização neuroanatômica 3D imersiva.",
+        btn_explore_diff: "🚀 Explorar os 6 Diferenciais",
+        btn_showcase: "🖼️ Ver Demonstração das Telas",
+        stat_nodes: "Nós Semânticos",
+        stat_synapses: "Sinapses 3D",
+                stat_videos_val: "+1.000 h",
+        stat_videos: "Vídeos Indexados (Telas e Transcrição)",
+        stat_docs_val: "+2.000",
+        stat_docs: "Documentos Técnicos e Funcionais",
+        stat_nodes: "Nós Semânticos 3D",
+        stat_synapses: "Sinapses 3D Mapeadas",
+        
+        mapfre_tag: "🎯 CASO REAL • ORIGEM & MOTIVAÇÃO MAPFRE",
+        mapfre_title: "A Missão de Origem: <span>Indexação Ultrarrápida para a MAPFRE</span>",
+        mapfre_lead: "O nascimento do AXET-NeuralGraph 3D foi impulsionado por uma urgência crítica na <strong>MAPFRE</strong>: processar e indexar em tempo recorde um acervo massivo de <strong>mais de 1.000 horas de vídeos</strong> (com captura de telas de sistemas legados de seguros e transcrição contínua de áudio) somadas a <strong>mais de 2.000 documentos técnicos e funcionais</strong> de engenharia (Reef.core). Soluções convencionais em nuvem eram lentas, onerosas e inseguras; concebeu-se esta arquitetura desktop nativa para entregar velocidade extrema e soberania absoluta dos dados.",
+        mapfre_col1_t: "1. O Desafio do Acervo Massivo",
+        mapfre_col1_d: "A Mapfre possuía centenas de gigabytes em gravações de treinamentos, navegação em telas operacionais de emissão e regulação de sinistros, e milhares de especificações do core. Subir esse material para nuvens comerciais exigiria semanas de upload e milhares de dólares em tokens.",
+        mapfre_col2_t: "2. A Motivação: Velocidade Extrema e Local-First",
+        mapfre_col2_d: "A premissa era inegociável: dispor de um motor de indexação de altíssima velocidade capaz de processar vídeos quadro a quadro (OCR de telas) e áudio (Whisper local) diretamente na máquina, blindando o segredo industrial e reduzindo o tempo de disponibilização para minutos.",
+        mapfre_col3_t: "3. O Resultado: Grafo 3D e .qpack",
+        mapfre_col3_d: "Todo o acervo foi estruturado em um Grafo Neural anatômico de 3.111 nós e 9.472 sinapses. Graças à compressão .qpack, os times técnicos e de negócio da Mapfre agora localizam qualquer tela de sistema ou regra de apólice em menos de 2 segundos, sem tocar na internet.",
+        mapfre_kpi1_num: "+1.000 h",
+        mapfre_kpi1_txt: "Vídeos de Treinamento e Telas Operacionais Indexadas",
+        mapfre_kpi2_num: "+2.000",
+        mapfre_kpi2_txt: "Documentos Técnicos e Funcionais do Reef.core",
+        mapfre_kpi3_num: "100% Local",
+        mapfre_kpi3_txt: "Whisper int8 + OCR sem Vazamento para Nuvem",
+        mapfre_kpi4_num: "< 2 seg",
+        mapfre_kpi4_txt: "Resposta Instantânea no Grafo Tridimensional",
+        tray_p4_t: "4. Caso MAPFRE: Validação em Escala Extrema",
+        tray_p4_d: "A motivação fundacional do produto foi a indexação ultrarrápida do acervo da Mapfre: +1.000 horas de vídeos (telas de sistemas legados de seguros e transcrição de voz com Whisper) e +2.000 documentos técnicos do Reef.core. A solução comprovou viabilidade operacional plena, zerando custos recorrentes de nuvem e blindando 100% o sigilo corporativo.",
+        stat_localhost: "Localhost / Air-Gapped",
+        stat_federation: "Federação de Sinapses",
+        hero_zoom_hint: "🔍 Clique na janela para ampliar o Grafo Neural 3D anatômico em alta resolução.",
+        lightbox_hero: "Grafo Neural 3D Anatômico: 3.111 nós e 9.472 sinapses distribuídos pelos lobos cerebrais em Three.js (brain.glb)",
+        
+        why_tag: "Engenharia Local-First",
+        why_title: "Por Que Criamos Uma Aplicação Desktop Nativa?",
+        why_subtitle: "Corporações com segredos industriais, regras regulatórias estritas (SUSEP/DGSFP) e bases de missão crítica não podem depender de bots web genéricos em nuvens compartilhadas.",
+        pain_title: "Os Riscos de Soluções Web Tradicionais",
+        pain_1_t: "Vazamento de Código & Propriedade Intelectual:",
+        pain_1_d: "Upload de arquivos corporativos para clouds públicas expõe segredos industriais a vazamentos e treinamento involuntário de LLMs.",
+        pain_2_t: "Custo Elevado de Embeddings por Usuário:",
+        pain_2_d: "Cada funcionário calculando vetores na nuvem consome milhares de dólares em tokens recorrentes.",
+        pain_3_t: "Alucinações Fora de Domínio:",
+        pain_3_d: "Modelos web misturam regras corporativas internas com palpites da internet sem ancoragem canônica estrita.",
+        pain_4_t: "Memória Rígida e Estática:",
+        pain_4_d: "Se o modelo erra uma interpretação, o erro permanece eternamente até um re-treinamento manual complexo.",
+        
+        gain_title: "A Vantagem do AXET-NeuralGraph Desktop",
+        gain_1_t: "Isolamento Local Estrito (127.0.0.1):",
+        gain_1_d: "Zero tráfego de dados sensíveis na internet. Perguntas, sinapses e histórico ficam 100% blindados na máquina.",
+        gain_2_t: "Zero Custo de Tokens no Cliente:",
+        gain_2_d: "O usuário importa a base pré-indexada compactada (.qpack) em segundos, sem necessidade de GPU ou tokens de embedding.",
+        gain_3_t: "Performance Extrema com Tauri v2 (Rust):",
+        gain_3_d: "Shell nativo consome menos de 100MB de RAM (contra gigabytes de navegadores pesados ou Electron).",
+        gain_4_t: "Neuroplasticidade Sintética em Tempo Real:",
+        gain_4_d: "O assistente detecta falhas em seu próprio raciocínio e muta o grafo na hora com novas regras canônicas.",
+
+        diff_tag: "Diferenciais Disruptivos",
+        diff_title: "Os 6 Pilares Tecnológicos do Sistema",
+        diff_subtitle: "Uma arquitetura incomparável concebida pela NTT DATA para transformar montanhas de documentação desestruturada em conhecimento vivo, seguro e navegável.",
+        diff_1_badge: "Neuroanatomia 3D",
+        diff_1_title: "Grafo Neural Tridimensional com Malha Encefálica",
+        diff_1_desc: "Renderização em WebGL (Three.js) envolvida por uma casca holográfica anatômica de cérebro humano (brain.glb). Os documentos são mapeados espacialmente conforme sua função cognitiva: Lobo Temporal (apólices e memória semântica), Lobo Frontal (regras executivas), Parietal (lógica técnica de integração) e Occipital (multimodalidade).",
+        diff_1_pill: "⚡ <strong>3.111 nós e 9.472 sinapses</strong> com inspeção 360°, filtro de tensão e trilha de proveniência documental.",
+        diff_2_badge: "Cognição Dinâmica",
+        diff_2_title: "Neuroplasticidade Sintética & Auto-Retificação",
+        diff_2_desc: "Durante o chat, se a IA detecta uma inconsistência lógica em seu raciocínio preliminar, ela emite uma auto-retificação autônoma. O sistema muta instantaneamente o grafo, criando um nó APRENDIZADO_COGNITIVO e uma aresta RETIFICA_CONCEITO (peso 2.5+), priorizando essa diretriz canônica no topo das próximas consultas.",
+        diff_2_pill: "💡 <strong>Card visual interativo</strong> no balão de chat informando: <em>'Aprendizado Ocorrido • Nova Sinapse no Grafo'</em>.",
+        diff_3_badge: "Governança Sem Permissões",
+        diff_3_title: "Federação Dual Git com Zero Impacto de Permissão",
+        diff_3_desc: "As sinapses locais são transmitidas via Outbox para GitHub Issues (label cognitive-learning) sem exigir conta ou permissão de commit. O Master Admin aprova e gera pacotes globais (.pack) baixados por todos em < 2s.",
+        diff_3_pill: "🔒 <strong>Zero privilégios no usuário final</strong> e curadoria formal centralizada no painel de administração.",
+        diff_4_badge: "Segurança Máxima",
+        diff_4_title: "RAG Local-First Estrito & Blindagem Epistêmica",
+        diff_4_desc: "Toda a pilha roda com binds locais estritos em 127.0.0.1. Os colaboradores nunca recebem texto bruto em disco, apenas pacotes vetoriais (.qpack) com verificação criptográfica SHA-256. A Blindagem Epistêmica garante que anexos pontuais do usuário sejam contexto volátil, proibindo terminantemente a contaminação do grafo permanente.",
+        diff_4_pill: "🛑 <strong>Prevenção contra Data Poisoning:</strong> Arquivos não auditados nunca viram regras permanentes da base.",
+        diff_5_badge: "Multimodalidade Real",
+        diff_5_title: "Chat Multimodal com Telemetria Dinâmica (SSE)",
+        diff_5_desc: "Ingestão in-session de documentos corporativos (PDFs multipáginas com contagem de caracteres, apresentações PowerPoint com notas do apresentador e documentos Word) e até 3 imagens com downsampling inteligente Pillow (1080p). No lugar de '3 pontinhos', o balão de resposta exibe em tempo real o que o motor está fazendo.",
+        diff_5_pill: "📊 <strong>Feedback transparente:</strong> <em>'Lendo PDF...'</em> ➔ <em>'Consultando Grafo...'</em> ➔ <em>'Elaborando Resposta...'</em>.",
+        diff_6_badge: "Compliance Corporativo",
+        diff_6_title: "Matriz Regulatória & Glossário De ➔ Para",
+        diff_6_desc: "Módulo administrativo especializado em jurisdições e órgãos reguladores por país (SUSEP no Brasil, DGSFP na Espanha, etc.). O sistema opera com thesaurus semântico corporativo e equivalências conceituais, garantindo que termos como 'apólice', 'sinistro', 'prêmio' e 'liquidação' sigam rigorosamente os padrões de cada mercado.",
+        diff_6_pill: "🏛️ <strong>Controle de jurisdição ativa:</strong> Adaptação instantânea das regras de validação às leis vigentes.",
+
+        screens_tag: "Tour Visual do Produto",
+        screens_title: "Galeria de Telas da Aplicação Desktop",
+        screens_subtitle: "Confira cada detalhe da experiência de uso real do AXET-NeuralGraph 3D em execução, desde a navegação tridimensional no encéfalo até a governança regulatória.",
+        click_expand: "🔍 Clique para Expandir",
+        screen_1_badge: "Módulo 01 • Visualização Espacial 3D",
+        screen_1_title: "Grafo Neural Tridimensional e Lobos Corticais",
+        screen_1_desc: "Representação visual interativa da memória técnica da organização. O modelo 3D encapsula documentos em uma malha anatômica encefálica vítrea. Na imagem, destaca-se o <strong>Lobo Temporal Esquerdo</strong> (36% do grafo, responsável pela memória declarativa de apólices e regras de negócio do Reef.core).",
+        screen_1_cap: "Grafo Neural 3D Anatômico: 3.111 nós e 9.472 sinapses distribuídos pelos lobos cerebrais em Three.js",
+        spec_k1_1: "Estatísticas do Grafo", spec_v1_1: "3.111 Nós • 9.472 Sinapses",
+        spec_k1_2: "Motor Gráfico", spec_v1_2: "Three.js WebGL + GLTFLoader",
+        spec_k1_3: "Lobos Mapeados", spec_v1_3: "Frontal, Parietal, Temporal, Occipital",
+        spec_k1_4: "Controle de Câmera", spec_v1_4: "Orbital 360° + Zoom Sináptico",
+
+        screen_2_badge: "Módulo 02 • Rastreabilidade Epistêmica",
+        screen_2_title: "Inspeção Detalhada de Nós e Papel Cognitivo",
+        screen_2_desc: "Ao selecionar qualquer nó no universo 3D, o assistente abre o painel de auditoria do documento. É possível examinar a proveniência exata no acervo técnico (Reef Academy), autoridade conceitual, data de ingestão e todas as arestas sinápticas que conectam aquela especificação a outros subsistemas.",
+        screen_2_cap: "Inspeção de Nó Semântico: Metadados, autoridade documental do Reef Academy e conexões sinápticas",
+        spec_k2_1: "Exemplo Selecionado", spec_v2_1: "Definição de Ramo Saúde (Reef.core)",
+        spec_k2_2: "Origem Documental", spec_v2_2: "Reef Academy / Ingestão MD",
+        spec_k2_3: "Relação Sináptica", spec_v2_3: "Complementa (7.590) • Substitui (41)",
+        spec_k2_4: "Papel Cognitivo", spec_v2_4: "Definição Arquitetural Canônica",
+
+        screen_3_badge: "Módulo 03 • Memória de Longo Prazo",
+        screen_3_title: "Assistente Cognitivo Integrado ao Universo Neural",
+        screen_3_desc: "O assistente mantém memória persistente de conversas anteriores mesmo após reinicializações. Ao navegar no universo 3D, o card inteligente recapitula as últimas interações do colaborador (<em>'Boa tarde, Gustavo! Lembrei que estávamos falando sobre procedimentos operacionais e validações...'</em>), permitindo continuidade imediata do trabalho.",
+        screen_3_cap: "Assistente Contextual Imersivo: Retomada de conversas anteriores integrada diretamente ao universo neural",
+        spec_k3_1: "Persistência", spec_v3_1: "PostgreSQL 16 Relacional",
+        spec_k3_2: "Sessões Ativas", spec_v3_2: "Histórico Completo Indexado",
+        spec_k3_3: "Retomada", spec_v3_3: "1-Clique para Continuar Chat",
+        spec_k3_4: "Interação", spec_v3_4: "HUD Flutuante Não-Bloqueante",
+
+        screen_4_badge: "Módulo 04 • Motor de Raciocínio RAG",
+        screen_4_title: "Chat com Streaming SSE e Telemetria Dinâmica",
+        screen_4_desc: "Durante o envio de perguntas técnicas complexas (ex: <em>'Como é estruturada a integração técnica e o fluxo de liquidações no Reef.core?'</em>), o balão de resposta comunica transparentemente cada etapa do pipeline cognitivo via Server-Sent Events, garantindo precisão milimétrica e ausência de alucinações.",
+        screen_4_cap: "Chat Interativo e Telemetria em Tempo Real: Execução de pergunta técnica sobre integração no Reef.core",
+        spec_k4_1: "Protocolo de Comunicação", spec_v4_1: "Server-Sent Events (SSE) Assíncrono",
+        spec_k4_2: "Motor Vetorial", spec_v4_2: "Qdrant HNSW Cosine Index",
+        spec_k4_3: "Modelo de Embeddings", spec_v4_3: "BAAI/bge-m3 Local (Dense + Sparse)",
+        spec_k4_4: "Indicador de Status", spec_v4_4: "Lendo ➔ Buscando ➔ Pensando",
+
+        screen_5_badge: "Módulo 05 • Experiência do Usuário",
+        screen_5_title: "Dashboard Inicial, Okta SSO & Sugestões Ativas",
+        screen_5_desc: "A tela principal acolhe o usuário corporativo com seu perfil integrado via Okta SSO (OneNTT). O assistente analisa a base vetorial carregada e gera sugestões dinâmicas de perguntas de acordo com o contexto indexado, facilitando o onboarding de novos analistas e engenheiros.",
+        screen_5_cap: "Dashboard Inicial e Sugestões Inteligentes com Perfil Logado via Okta SSO",
+        spec_k5_1: "Autenticação", spec_v5_1: "Okta Device Flow (OneNTT) + JWT",
+        spec_k5_2: "Sugestões Contextuais", spec_v5_2: "Baseadas no Acervo Indexado",
+        spec_k5_3: "Busca no Histórico", spec_v5_3: "Filtro Rápido por Palavra-Chave",
+        spec_k5_4: "Atalhos Superiores", spec_v5_4: "Sincronizar Base, Grafo 3D, Admin",
+
+        screen_6_badge: "Módulo 06 • Governança & Regulação",
+        screen_6_title: "Painel Administrativo & Matriz Regulatória De ➔ Para",
+        screen_6_desc: "Área de controle do Master Admin. Permite selecionar a jurisdição ativa de operação, mapear os órgãos reguladores oficiais (ex: SUSEP), configurar regras de equivalência De ➔ Para entre terminologias de seguros e gerenciar a esteira de snapshots criptográficos (.qpack).",
+        screen_6_cap: "Painel Administrativo: Legislação por país e thesaurus conceitual De ➔ Para",
+        spec_k6_1: "Jurisdição", spec_v6_1: "Multi-País (Brasil, Espanha, etc.)",
+        spec_k6_2: "Thesaurus De ➔ Para", spec_v6_2: "Equivalências Semânticas Estritas",
+        spec_k6_3: "Gestão de Snapshots", spec_v6_3: "Exportação & Assinatura SHA-256",
+        spec_k6_4: "Curadoria de Sinapses", spec_v6_4: "Aprovação de Aprendizados Cognitivos",
+
+        arch_tag: "Engenharia de Software",
+        arch_title: "Arquitetura Técnica em 4 Camadas",
+        arch_subtitle: "Construído sobre o estado da arte do desenvolvimento moderno de software com Rust, WebGL, Python assíncrono e bancos vetoriais de última geração.",
+        layer_1_tag: "Camada 01", layer_1_title: "Desktop Shell (Nativo)",
+        layer_1_desc: "Executável nativo em Rust via Tauri v2. Consumo < 100MB RAM, integração com dialogs do SO (seletor OneDrive), atalhos de teclado e ciclo de vida otimizado.",
+        layer_2_tag: "Camada 02", layer_2_title: "Frontend Reativo & 3D",
+        layer_2_desc: "Single-Page Application com Next.js 14 e Three.js para renderização da malha encefálica holográfica a 60 FPS, estilizada com o Design System corporativo da NTT DATA.",
+        layer_3_tag: "Camada 03", layer_3_title: "Backend API & Cognitive",
+        layer_3_desc: "Microsserviço de alta concorrência em FastAPI (Python 3.11). Roteamento assíncrono, SSE para streaming de respostas, telemetria em tempo real e orquestração RAG.",
+        layer_4_tag: "Camada 04", layer_4_title: "Bancos & Multimodal",
+        layer_4_desc: "Armazenamento híbrido: Qdrant Vector DB para busca semântica aproximada por cosseno, PostgreSQL 16 para entidades/grafos e Faster-Whisper para transcrição offline.",
+
+        chart_ram_title: "Consumo Médio de Memória RAM (MB)",
+        chart_ram_sub: "Comparativo entre arquiteturas de assistentes desktop corporativos",
+        chart_lobes_title: "Distribuição Anatômica de Conhecimento",
+        chart_lobes_sub: "Mapeamento de 3.111 nós documentais por lobos encefálicos",
+        chart_ram_labels: ['AXET Desktop (Tauri)', 'Desktop Tradicional (Electron)', 'Navegador Web (Chrome/Edge)', 'Solução Nuvem Monolítica'],
+        chart_lobes_labels: ['Lobo Temporal (Apólices & Memória)', 'Lobo Parietal (Integração Técnica & APIs)', 'Lobo Frontal (Regras de Negócio & Decisão)', 'Lobo Occipital (Multimodalidade & OCR)', 'Cerebelo & Tronco (Sustentação & Scripts)'],
+
+        sec_tag: "Distribuição Criptografada",
+        sec_title: "Como Funciona a Entrega Segura de Conhecimento",
+        sec_subtitle: "O modelo de pacotes pré-computados (.qpack) elimina o risco de vazamento de dados, desonera a infraestrutura das máquinas clientes e garante integridade auditável.",
+        step_1_t: "Ingestão pelo Admin", step_1_d: "O Master Admin indexa a documentação canônica (manuais do Reef.core, normas e arquiteturas) em seu ambiente local seguro.",
+        step_2_t: "Empacotamento .qpack", step_2_d: "O sistema extrae o snapshot atômico do Qdrant + metadados do Postgres, compacta a base (redução de até 85%) e assina com hash SHA-256.",
+        step_3_t: "Compartilhamento Seguro", step_3_d: "O arquivo .qpack é armazenado no SharePoint ou Teams interno da NTT DATA. Nenhum código-fonte ou texto puro é trafegado.",
+        step_4_t: "Restauração em 1 Clique", step_4_d: "O usuário arrasta o arquivo no painel do app. O sistema valida o SHA-256 e restaura a base vetorial completa em menos de 15 segundos.",
+
+        faq_tag: "Dúvidas Técnicas & Governança",
+        faq_title: "Perguntas Frequentes (FAQ)",
+        faq_subtitle: "Esclarecimentos essenciais para líderes de TI, arquitetos corporativos e equipes de cibersegurança (CISO).",
+        faq_q1: "1. Os dados da minha organização ou as conversas dos colaboradores saem da máquina?",
+        faq_a1: "<strong>Não.</strong> A aplicação roda com binds rigorosamente isolados em 127.0.0.1 (localhost). Todo o processamento de busca vetorial no Qdrant, persistência relacional no PostgreSQL e navegação em 3D ocorre exclusivamente no hardware do colaborador. O único tráfego opcional é a consulta às APIs corporativas de IA via proxy aXet com autenticação Okta Bearer.",
+        faq_q2: "2. O que acontece se um usuário anexar um PDF confidencial ou foto no chat? O grafo é contaminado?",
+        faq_a2: "<strong>Não.</strong> O sistema implementa o mecanismo patenteado de <strong>Blindagem Epistêmica (Epistemic Sandboxing)</strong>. Arquivos e imagens anexados são processados exclusivamente na memória volátil daquela sessão. O gatilho de auto-retificação é rigorosamente desativado quando há anexos, impedindo terminantemente que informações não auditadas se tornem nós permanentes ou componham pacotes federados (.pack).",
+        faq_q3: "3. Como funciona a Neuroplasticidade Sintética na prática?",
+        faq_a3: "Quando o modelo identifica uma contradição ou equívoco em seu raciocínio preliminar, ele emite um bloco de aprendizado neural. O backend cria imediatamente um nó APRENDIZADO_COGNITIVO no PostgreSQL com uma aresta RETIFICA_CONCEITO de voltagem alta (peso 2.5+) e atualiza o Qdrant. Em perguntas futuras, essa regra canônica é injetada no topo absoluto do prompt RAG, sobrepondo documentos legados.",
+        faq_q4: "4. Usuários finais precisam de licença ou permissão de commit no GitHub para enviar aprendizados?",
+        faq_a4: "<strong>Zero permissões.</strong> O modelo federado do Cenário 1 utiliza uma Outbox local que envia sinapses anônimas para a API de GitHub Issues com label cognitive-learning. Os colaboradores não precisam de conta no GitHub nem de permissão de gravação. A curadoria é feita pelo Master Admin no painel web, que compila a versão pública e distribui via Releases em menos de 2 segundos.",
+        faq_q5: "5. Qual o consumo de hardware do aplicativo nas máquinas dos colaboradores?",
+        faq_a5: "Graças ao runtime nativo do <strong>Tauri v2 compilado em Rust</strong>, o shell desktop consome tipicamente <strong>entre 80MB e 120MB de memória RAM</strong>, operando de forma suave mesmo em laptops corporativos padrão. O motor gráfico Three.js utiliza aceleração direta por hardware (WebGL).",
+        faq_q6: "6. Como o AXET-NeuralGraph se integra com sistemas legados e autenticação corporativa?",
+        faq_a6: "A plataforma possui integração nativa com o <strong>Okta SSO corporativo (OneNTT Device Flow)</strong>, além de compatibilidade com modelos locais e externos via aXet Gateway. A ingestão suporta arquivos Markdown, Word, PowerPoint com anotações de orador, PDFs técnicos e transcrição de vídeos operacionais via Faster-Whisper e FFmpeg.",
+
+        tray_btn_text: "🧠 Visão Executiva",
+        tray_header_tag: "NTT DATA • Sumário de Produto",
+        tray_header_title: "AXET-NeuralGraph 3D — Visão Executiva para Lideranças",
+        tray_p1_t: "1. O Posicionamento Estratégico",
+        tray_p1_d: "O AXET-NeuralGraph 3D é a resposta definitiva para organizações com propriedade intelectual ultra-sigilosa que precisam acelerar onboarding de engenharia, desmistificar arquiteturas legadas (como Reef.core) e garantir conformidade regulatória sem risco de vazamento de dados corporativos.",
+        tray_p2_t: "2. Inovação Arquitetural Local-First",
+        tray_p2_d: "Ao unir Tauri v2 em Rust a um pipeline de snapshots vetoriais compactados (.qpack), a solução entrega resposta em milissegundos sem custos de tokens de embedding para as estações dos colaboradores, com conformidade estrita com LGPD e GDPR.",
+        tray_p3_t: "3. Autonomia Cognitiva & Federação",
+        tray_p3_d: "Pela primeira vez em um produto de IA corporativa, o assistente é capaz de auto-retificar seu próprio raciocínio em tempo real, mutar o grafo neural e sincronizar esse aprendizado com toda a companhia via GitHub Releases em menos de 2 segundos, com governança auditada pelo Master Admin.",
+
+        footer_brand_desc: "Ecossistema de Inteligência Artificial Local-First para grandes corporações, seguradoras e utilities. Grafo neural tridimensional, RAG de alta fidelidade e blindagem epistêmica.",
+        footer_col1_title: "Diferenciais",
+        footer_l1: "Grafo Neural 3D Anatômico",
+        footer_l2: "Neuroplasticidade Sintética",
+        footer_l3: "Federação Sem Permissões",
+        footer_l4: "Blindagem Epistêmica",
+        footer_col2_title: "Engenharia",
+        footer_l5: "Distribuição .qpack",
+        footer_col3_title: "Governança",
+        footer_l6: "Matriz Regulatória De ➔ Para",
+        footer_l7: "Criptografia SHA-256",
+        footer_l8: "Conformidade LGPD/GDPR",
+        footer_l9: "Esclarecimentos ao CISO",
+        footer_rights: "Todos os direitos reservados. Material de uso executivo e técnico confidencial."
+      }
+    };
+
+    let currentLang = 'es';
+    let chartRamInstance = null;
+    let chartLobesInstance = null;
+
+    function t(key) {
+      if (i18nData[currentLang] && i18nData[currentLang][key]) {
+        return i18nData[currentLang][key];
+      }
+      return i18nData['es'][key] || key;
+    }
+
+    function setLanguage(lang) {
+      if (!i18nData[lang]) return;
+      currentLang = lang;
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+
+      // Update active button state
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      // Update document title
+      document.title = t('page_title');
+
+      // Update all elements with data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18nData[lang][key]) {
+          el.innerHTML = i18nData[lang][key];
+        }
+      });
+
+      // Update Charts
+      updateCharts(lang);
+
+      try {
+        localStorage.setItem('axet_product_lang', lang);
+      } catch (e) {}
+    }
+
+    // Mobile Menu Controls
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+
+    if (mobileMenuBtn && mobileDrawer) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('open');
+      });
+    }
+
+    function closeMobileMenu() {
+      if (mobileDrawer) mobileDrawer.classList.remove('open');
+    }
+
+    // FAQ Accordion Controls
+    document.addEventListener('DOMContentLoaded', () => {
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const header = item.querySelector('.faq-header');
+        header.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          faqItems.forEach(f => f.classList.remove('active'));
+          if (!isActive) item.classList.add('active');
+        });
+      });
+
+      // Presenter Tray Modal
+      const trayBtn = document.getElementById('btn-open-tray');
+      const trayModal = document.getElementById('tray-modal');
+      const trayClose = document.getElementById('btn-close-tray');
+
+      if (trayBtn && trayModal) {
+        trayBtn.addEventListener('click', () => trayModal.classList.add('open'));
+        trayClose.addEventListener('click', () => trayModal.classList.remove('open'));
+        trayModal.addEventListener('click', (e) => {
+          if (e.target === trayModal) trayModal.classList.remove('open');
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'a' || e.key === 'A') {
+          if (trayModal && !e.target.matches('input, textarea')) {
+            trayModal.classList.toggle('open');
+          }
+        }
+        if (e.key === 'Escape') {
+          if (trayModal) trayModal.classList.remove('open');
+          closeLightbox();
+          closeMobileMenu();
+        }
+      });
+
+      // Initialize Charts
+      initCharts();
+
+      // Check Saved Language or default to Spanish (es)
+      let savedLang = 'es';
+      try {
+        savedLang = localStorage.getItem('axet_product_lang') || 'es';
+      } catch (e) {}
+      setLanguage(savedLang);
+    });
+
+    function initCharts() {
+      // 1. RAM Benchmark Chart
+      const ctxRam = document.getElementById('chartRamBenchmark');
+      if (ctxRam) {
+        chartRamInstance = new Chart(ctxRam, {
+          type: 'bar',
+          data: {
+            labels: i18nData[currentLang].chart_ram_labels,
+            datasets: [{
+              label: 'RAM (MB)',
+              data: [95, 840, 1450, 2100],
+              backgroundColor: ['#00c0f3', '#64748b', '#f59e0b', '#ef4444'],
+              borderRadius: 8,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ` ${ctx.parsed.y} MB`
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: 'RAM (MB)' },
+                grid: { color: 'rgba(0,0,0,0.05)' }
+              },
+              x: {
+                grid: { display: false },
+                ticks: {
+                  font: { size: 11, family: 'Inter' }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // 2. Lobes Distribution Chart
+      const ctxLobes = document.getElementById('chartLobesDistribution');
+      if (ctxLobes) {
+        chartLobesInstance = new Chart(ctxLobes, {
+          type: 'doughnut',
+          data: {
+            labels: i18nData[currentLang].chart_lobes_labels,
+            datasets: [{
+              data: [1120, 890, 640, 281, 180],
+              backgroundColor: ['#0066cc', '#00c0f3', '#7928ca', '#10b981', '#f59e0b'],
+              borderWidth: 2,
+              borderColor: '#ffffff'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: window.innerWidth < 650 ? 'bottom' : 'right',
+                labels: {
+                  boxWidth: 12,
+                  font: { size: 10.5, family: 'Inter' }
+                }
+              }
+            },
+            cutout: '62%'
+          }
+        });
+      }
+    }
+
+    function updateCharts(lang) {
+      if (chartRamInstance) {
+        chartRamInstance.data.labels = i18nData[lang].chart_ram_labels;
+        chartRamInstance.update();
+      }
+      if (chartLobesInstance) {
+        chartLobesInstance.data.labels = i18nData[lang].chart_lobes_labels;
+        chartLobesInstance.update();
+      }
+    }
+
+    // Lightbox Controls
+    function openLightbox(src, caption) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      const cap = document.getElementById('lightboxCaption');
+      if (modal && img) {
+        img.src = src;
+        cap.textContent = caption || '';
+        modal.classList.add('active');
+      }
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      if (modal) modal.classList.remove('active');
+    }
+  </script>
+</body>
+</html>
